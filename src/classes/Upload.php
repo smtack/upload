@@ -78,6 +78,32 @@ class Upload {
     }
   }
 
+  public function getComment($id) {
+    $comment = $this->db->select('comments', array('users', 'users.user_id', 'comments.comment_by'), array('comment_id', '=', $id));
+
+    if($comment->count()) {
+      return $comment->first();
+    } else {
+      return false;
+    }
+  }
+
+  public function editComment($id, $fields = array()) {
+    if($this->db->update('comments', 'comment_id', $id, $fields)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public function deleteComment($id) {
+    if($this->db->delete('comments', array('comment_id', '=', $id))) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public function searchUploads($keywords) {
     $results = $this->db->select('uploads', array('users', 'users.user_id', 'uploads.upload_by'), array('upload_title', 'LIKE', $keywords), 'upload_date');
 

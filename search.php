@@ -4,8 +4,8 @@ require_once 'src/init.php';
 $user = new User();
 $upload = new Upload();
 
-$keywords = isset($_GET['s']) ? $_GET['s'] : '';
-$keywords = htmlentities($keywords);
+$keywords = Input::get('s') ? Input::get('s') : '';
+$keywords = escape($keywords);
 $keywords = "%{$keywords}%";
 
 $results = $upload->searchUploads($keywords);

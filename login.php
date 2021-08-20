@@ -9,14 +9,21 @@ if($user->loggedIn()) {
 
 $page_title = "Upload - Log In";
 
-if(isset($_POST['login'])) {
-  if(empty($_POST['user_username']) || empty($_POST['user_password'])) {
-    $message = '<p class="message error">Enter your Username and Password</p>';
-  } else {
-    if($user->login($_POST['user_username'], $_POST['user_password'])) {
+if(Input::exists($_POST, 'login')) {
+  $validate = new Validate();
+
+  $validation = $validate->check($_POST, array(
+    'user_username' => array('required' => true),
+    'user_password' => array('required' => true)
+  ));
+
+  if($validation->passed()) {
+    $remember = (Input::get('remember') === 'on') ? true : false;
+
+    if($user->login(Input::get('user_username'), Input::get('user_password'), $remember)) {
       Redirect::to(BASE_URL);
     } else {
-      $message = '<p class="error message">Incorrect Username or Password</p>';
+      $validation->addError("Username or Password Incorrect");
     }
   }
 }

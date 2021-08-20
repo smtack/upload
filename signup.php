@@ -9,23 +9,48 @@ if($user->loggedIn()) {
 
 $page_title = "Upload - Sign Up";
 
-if(isset($_POST['signup'])) {
-  if(empty($_POST['user_name']) || empty($_POST['user_username']) || empty($_POST['user_email']) || empty($_POST['user_password']) || empty($_POST['confirm_password'])) {
-    $message = '<p class="message error">Fill in all fields</p>';
-  } else {
-    if($_POST['user_password'] !== $_POST['confirm_password']) {
-      $message = '<p class="message error">Passwords must match</p>';
+if(Input::exists($_POST, 'signup')) {
+  $validate = new Validate();
+
+  $validation = $validate->check($_POST, array(
+    'user_name' => array(
+      'required' => true,
+      'min' => 1,
+      'max' => 50
+    ),
+    'user_username' => array(
+      'required' => true,
+      'min' => 3,
+      'max' => 25,
+      'unique' => 'users'
+    ),
+    'user_email' => array(
+      'required' => true,
+      'min' => 5,
+      'max' => 128,
+      'unique' => 'users'
+    ),
+    'user_password' => array(
+      'required' => true,
+      'min' => 3,
+      'max' => 128
+    ),
+    'confirm_password' => array(
+      'required' => true,
+      'matches' => 'user_password'
+    )
+  ));
+
+  if($validation->passed()) {
+    if($user->create(array(
+      'user_name' => escape(Input::get('user_name')),
+      'user_username' => escape(Input::get('user_username')),
+      'user_email' => escape(Input::get('user_email')),
+      'user_password' => escape(Hash::createPassword(Input::get('user_password')))
+    ))) {
+      Redirect::to(BASE_URL);
     } else {
-      if($user->create(array(
-        'user_name' => htmlentities($_POST['user_name']),
-        'user_username' => htmlentities($_POST['user_username']),
-        'user_email' => htmlentities($_POST['user_email']),
-        'user_password' => password_hash($_POST['user_password'], PASSWORD_BCRYPT)
-      ))) {
-        Redirect::to(BASE_URL);
-      } else {
-        $message = '<p class="message error">Unable to sign up</p>';
-      }
+      $validation->addError("Unable to Sign Up");
     }
   }
 }

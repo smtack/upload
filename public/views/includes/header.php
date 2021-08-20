@@ -29,7 +29,7 @@
       <span class="close-search">&times;</span>
 
       <form action="<?php echo BASE_URL; ?>/search" method="GET">
-        <input type="text" name="s"  value="<?php echo isset($keywords) ? str_replace('%', '', $keywords) : ''; ?>">
+        <input type="text" name="s" placeholder="Search" value="<?php echo isset($keywords) ? str_replace('%', '', $keywords) : ''; ?>">
       </form>
     </div>
 

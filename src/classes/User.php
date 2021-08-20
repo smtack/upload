@@ -2,19 +2,21 @@
 class User {
   private $db;
   private $data;
-  private $sessionName;
-  private $loggedIn;
+  private $session_name;
+  private $cookie_name;
+  private $logged_in;
 
   public function __construct($user = null) {
     $this->db = Database::getInstance();
-    $this->sessionName = 'user';
+    $this->session_name = Config::get('session/session_name');
+    $this->cookie_name = Config::get('remember/cookie_name');
 
     if(!$user) {
-      if(Session::exists($this->sessionName)) {
-        $user = Session::get($this->sessionName);
+      if(Session::exists($this->session_name)) {
+        $user = Session::get($this->session_name);
 
         if($this->find($user)) {
-          $this->loggedIn = true;
+          $this->logged_in = true;
         } else {
           $this->logout();
         }
@@ -28,7 +30,7 @@ class User {
     if($this->db->insert('users', $fields)) {
       $user = $this->find($fields['user_username']);
 
-      Session::set($this->sessionName, $this->data()->user_id);
+      Session::set($this->session_name, $this->data()->user_id);
 
       return true;
     } else {
@@ -51,15 +53,31 @@ class User {
     return false;
   }
 
-  public function login($username = null, $password = null) {
+  public function login($username = null, $password = null, $remember = false) {
     if(!$username && !$password && $this->exists()) {
-      Session::set($this->sessionName, $this->data()->user_id);
+      Session::set($this->session_name, $this->data()->user_id);
     } else {
       $user = $this->find($username);
 
       if($user) {
-        if(password_verify($password, $this->data()->user_password)) {
-          Session::set($this->sessionName, $this->data()->user_id);
+        if(Hash::verifyPassword($password, $this->data()->user_password)) {
+          Session::set($this->session_name, $this->data()->user_id);
+
+          if($remember) {
+            $hash = Hash::random();
+            $hash_check = $this->db->select('users_session', array(), array('user_id', '=', $this->data()->user_id));
+
+            if(!$hash_check->count()) {
+              $this->db->insert('users_session', array(
+                'user_id' => $this->data()->user_id,
+                'session_hash' => $hash
+              ));
+            } else {
+              $hash = $hash_check->first()->session_hash;
+            }
+
+            Cookie::set($this->cookie_name, $hash, Config::get('remember/cookie_expiry'));
+          }
 
           return true;
         } else {
@@ -69,6 +87,13 @@ class User {
     }
 
     return false;
+  }
+
+  public function logout() {
+    $this->db->delete('users_session', array('user_id', '=', $this->data()->user_id));
+
+    Session::unset($this->session_name);
+    Cookie::delete($this->cookie_name);
   }
 
   public function updateProfile($fields = array(), $id = null) {
@@ -89,7 +114,7 @@ class User {
     }
 
     if($this->db->delete('users', array('user_id', '=', $id))) {
-      Session::unset($this->sessionName);
+      $this->logout();
 
       return true;
     } else {
@@ -97,8 +122,16 @@ class User {
     }
   }
 
-  public function logout() {
-    Session::unset($this->sessionName);
+  public function getProfile($username) {
+    $row = $this->db->select('users', array(), array('user_username', '=', $username));
+    
+    if($row->count()) {
+      $profile = $row->first();
+
+      return $profile;
+    } else {
+      return false;
+    }
   }
 
   public function exists() {
@@ -110,6 +143,6 @@ class User {
   }
 
   public function loggedIn() {
-    return $this->loggedIn;
+    return $this->logged_in;
   }
 }

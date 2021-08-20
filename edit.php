@@ -8,7 +8,7 @@ if(!$user->loggedIn()) {
   Redirect::to(BASE_URL);
 }
 
-if(!$id = $_GET['id']) {
+if(!$id = Input::get('id')) {
   Redirect::to(BASE_URL);
 } else {
   if(!$upload_data = $upload->getUpload($id)) {
@@ -24,24 +24,33 @@ $page_title = "Upload - Edit Post: " . $upload_data->upload_title;
 
 $img_exts = array('jpg', 'png', 'PNG', 'gif');
 
-if(isset($_POST['edit'])) {
-  if(empty($_POST['upload_title']) || empty($_POST['upload_description'])) {
-    $message = '<p class="message error">Enter a title and a description</p>';
-  } else {
-    $update_array = array(
-      'upload_title' => htmlentities($_POST['upload_title']),
-      'upload_description' => htmlentities($_POST['upload_description'])
-    );
+if(Input::exists($_POST, 'edit')) {
+  $validate = new Validate();
 
-    if($upload->editUpload($id, $update_array)) {
-      $message = '<p class="message notice">Upload has been updated</p>';
+  $validation = $validate->check($_POST, array(
+    'upload_title' => array(
+      'required' => true,
+      'min' => 1,
+      'max' => 150
+    ),
+    'upload_description' => array(
+      'max' => 500
+    )
+  ));
+
+  if($validation->passed()) {
+    if($upload->editUpload($id, array(
+      'upload_title' => escape(Input::get('upload_title')),
+      'upload_description' => escape(Input::get('upload_description'))
+    ))) {
+      Redirect::to(BASE_URL);
     } else {
-      $message = '<p class="message error">Unable to edit upload</p>';
+      $validation->addError("Unable to edit upload");
     }
   }
 }
 
-if(isset($_POST['delete_upload'])) {
+if(Input::exists($_POST, 'delete_upload')) {
   $upload_dir = "uploads/uploads/";
   $upload_name = $upload_data->upload_file;
   $file_to_delete = $upload_dir . $upload_name;
@@ -52,8 +61,6 @@ if(isset($_POST['delete_upload'])) {
     }
     
     Redirect::to(BASE_URL);
-  } else {
-    $delete_message = '<p class="message error">Unable to delete upload</p>';
   }
 }
 

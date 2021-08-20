@@ -11,7 +11,7 @@ class Database {
   private $options;
 
   private function __construct() {
-    $this->dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHAR;
+    $this->dsn = "mysql:host=" . Config::get('mysql/dbhost') . ";dbname=" . Config::get('mysql/dbname') . ";charset=" . Config::get('mysql/dbchar');
 
     $this->options = [
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
@@ -20,7 +20,7 @@ class Database {
     ];
 
     try {
-      $this->pdo = new PDO($this->dsn, DB_USER, DB_PASS, $this->options);
+      $this->pdo = new PDO($this->dsn, Config::get('mysql/dbuser'), Config::get('mysql/dbpass'), $this->options);
     } catch(\PDOException $e) {
       throw new \PDOException($e->getMessage(), (int)$e->getCode());
     }
@@ -127,7 +127,7 @@ class Database {
       }
     } else {
       if(count($where) == 3) {
-        $operators = array('=', '>', '<', '>=', '<=');
+        $operators = array('=', '>', '<', '>=', '<=', 'LIKE');
   
         $field = $where[0];
         $operator = $where[1];
@@ -209,6 +209,12 @@ class Database {
     }
 
     return false;
+  }
+
+  public function exists($table, $arr) {
+    $res = $this->select($table, array(), $arr);
+
+    return ($res->count()) ? true : false;
   }
 
   public function results() {

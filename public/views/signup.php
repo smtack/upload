@@ -4,10 +4,12 @@
   <h2>Sign Up</h2>
 
   <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-    <?php if(isset($message)): ?>
-      <div class="form-group">
-        <?php echo $message; ?>
-      </div>
+    <?php if(isset($validation)): ?>
+      <?php foreach($validation->errors() as $message): ?>
+        <div class="form-group">
+          <p class="message error"><?php echo $message; ?></p>
+        </div>
+      <?php endforeach; ?>
     <?php endif; ?>
     <div class="form-group">
       <input type="text" name="user_name" placeholder="Name">

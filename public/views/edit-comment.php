@@ -1,8 +1,8 @@
 <?php require_once 'public/views/includes/header.php'; ?>
 
 <div class="form">
-  <h2>Log In</h2>
-    
+  <h2>Edit Comment</h2>
+
   <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
     <?php if(isset($validation)): ?>
       <?php foreach($validation->errors() as $message): ?>
@@ -12,18 +12,20 @@
       <?php endforeach; ?>
     <?php endif; ?>
     <div class="form-group">
-      <input type="text" name="user_username" placeholder="Username">
+      <textarea name="comment_text"><?php echo $comment->comment_text; ?></textarea>
     </div>
     <div class="form-group">
-      <input type="password" name="user_password" placeholder="Password">
+      <input type="submit" name="edit_comment" value="Edit Comment">
     </div>
+  </form>
+</div>
+
+<div class="form">
+  <h2>Delete Comment</h2>
+
+  <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
     <div class="form-group">
-      <label for="remember">
-        <input type="checkbox" name="remember"> Remember Me
-      </label>
-    </div>
-    <div class="form-group">
-      <input type="submit" name="login" value="Log In">
+      <input type="submit" name="delete_comment" value="Delete Comment">
     </div>
   </form>
 </div>
