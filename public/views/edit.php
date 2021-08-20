@@ -4,10 +4,12 @@
   <h2>Edit Upload</h2>
 
   <form enctype="multipart/form-data" action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-    <?php if(isset($message)): ?>
-      <div class="form-group">
-        <?php echo $message; ?>
-      </div>
+    <?php if(isset($validation)): ?>
+      <?php foreach($validation->errors() as $message): ?>
+        <div class="form-group">
+          <p class="message error"><?php echo $message; ?></p>
+        </div>
+      <?php endforeach; ?>
     <?php endif; ?>
     <div class="form-group">
       <?php $ext = explode('.', strtolower($upload_data->upload_file)); ?>
@@ -36,11 +38,6 @@
   <h2>Delete Upload</h2>
 
   <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-    <?php if(isset($delete_message)): ?>
-      <div class="form-group">
-        <?php echo $delete_message; ?>
-      </div>
-    <?php endif; ?>
     <div class="form-group">
       <input type="submit" name="delete_upload" value="Delete Upload">
     </div>

@@ -4,10 +4,12 @@
   <h2>Update Profile</h2>
 
   <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-    <?php if(isset($update_message)): ?>
-      <div class="form-group">
-        <?php echo $update_message; ?>
-      </div>
+    <?php if(isset($validation)): ?>
+      <?php foreach($validation->errors() as $message): ?>
+        <div class="form-group">
+          <p class="message error"><?php echo $message; ?></p>
+        </div>
+      <?php endforeach; ?>
     <?php endif; ?>
     <div class="form-group">
       <input type="text" name="user_name" value="<?php echo $user->data()->user_name; ?>">
@@ -27,10 +29,12 @@
   <h2>Upload Profile Picture</h2>
 
   <form enctype="multipart/form-data" action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-    <?php if(isset($picture_message)): ?>
-      <div class="form-group">
-        <?php echo $picture_message; ?>
-      </div>
+    <?php if(isset($picture_validation)): ?>
+      <?php foreach($picture_validation->errors() as $message): ?>
+        <div class="form-group">
+          <p class="message error"><?php echo $message; ?></p>
+        </div>
+      <?php endforeach; ?>
     <?php endif; ?>
     <div class="form-group">
       <input type="file" name="user_profile_picture">
@@ -44,10 +48,12 @@
   <h2>Change Password</h2>
 
   <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-    <?php if(isset($password_message)): ?>
-      <div class="form-group">
-        <?php echo $password_message; ?>
-      </div>
+    <?php if(isset($password_validation)): ?>
+      <?php foreach($password_validation->errors() as $message): ?>
+        <div class="form-group">
+          <p class="message error"><?php echo $message; ?></p>
+        </div>
+      <?php endforeach; ?>
     <?php endif; ?>
     <div class="form-group">
       <input type="password" name="current_password" placeholder="Current Password">
@@ -67,11 +73,6 @@
   <h2>Delete Profile</h2>
 
   <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
-    <?php if(isset($delete_message)): ?>
-      <div class="form-group">
-        <?php echo $delete_message; ?>
-      </div>
-    <?php endif; ?>
     <div class="form-group">
       <input type="submit" name="delete_profile" value="Delete Profile">
     </div>

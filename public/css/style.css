@@ -145,6 +145,15 @@ a {
   border: 1px solid #000000;
 }
 
+.form-group input[type="checkbox"] {
+  width: 20px;
+  display: block;
+}
+
+.form-group label {
+  font-size: 14px;
+}
+
 .form-group input[type="submit"] {
   background-color: #000000;
   color: #ffffff;
@@ -205,9 +214,10 @@ a {
 
 .upload-box {
   width: 300px;
-  height: 200px;
-  margin: 25px 0;
-  padding: 25px;
+  min-height: 300px;
+  vertical-align: top;
+  margin: 25px;
+  padding: 10px;
   display: inline-block;
 }
 
@@ -226,6 +236,7 @@ a {
 .upload-box img,
 .upload-box video {
   width: 100%;
+  min-height: 150px;
   max-height: 150px;
 }
 
@@ -350,6 +361,7 @@ a {
 .result .result-img img,
 .result .result-img video {
   width: 100%;
+  max-height: 150px;
 }
 
 .result .result-content {
