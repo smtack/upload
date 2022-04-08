@@ -7,11 +7,26 @@
   
   <h2><?php echo $profile->user_name; ?></h2>
   <h4><?php echo $profile->user_username; ?></h4>
-  <p>Joined on <?php echo date('l j F Y \a\t H:i', strtotime($profile->user_joined)); ?></p>
+  <span>Joined on <?php echo date('l j F Y \a\t H:i', strtotime($profile->user_joined)); ?></span>
+
+  <span>
+    <?php echo(count($follows_data) == 1) ? count($follows_data) . ' Follower' : count($follows_data) . ' Followers'; ?> - 
+    <?php echo(count($users_uploads) == 1) ? count($users_uploads) . ' Upload' : count($users_uploads) . ' Uploads'; ?>
+  </span>
+
+  <?php if($user->loggedIn()): ?>
+    <?php if($user->data()->user_username !== $profile->user_username): ?>
+      <?php if(!findValue($follows_data, 'follow_user', $user->data()->user_id)): ?>
+        <a href="<?php echo BASE_URL; ?>/follow?u=<?php echo $profile->user_id; ?>"><button>Follow</button></a>
+      <?php else: ?>
+        <a href="<?php echo BASE_URL; ?>/unfollow?u=<?php echo $profile->user_id; ?>"><button>Unfollow</button></a>
+      <?php endif; ?>
+    <?php endif; ?>
+  <?php endif; ?>
 </div>
 <div class="users-uploads">
-  <?php if(!$users_uploads): ?>
-    <h3><?php echo $profile->user_name; ?> hasn't uploaded anything yet.</h3>
+  <?php if(count($users_uploads) == 0): ?>
+    <h3 class="site-notice"><?php echo $profile->user_name; ?> hasn't uploaded anything yet.</h3>
   <?php else: ?>
     <?php foreach($users_uploads as $upload): ?>
       <div class="upload-box">
@@ -26,7 +41,7 @@
         <?php endif; ?>
 
         <h3><a href="view?id=<?php echo $upload->upload_id; ?>"><?php echo $upload->upload_title; ?></a></h3>
-        <p>By <a href="<?php echo BASE_URL; ?>/profile?user=<?php echo $upload->user_username; ?>"><?php echo $upload->user_username; ?></a></p>
+        <p><?php echo($upload->upload_views == 1) ? $upload->upload_views . ' View' : $upload->upload_views . ' Views'; ?></p>
         <p><?php echo date('l j F Y \a\t H:i', strtotime($upload->upload_date)); ?></p>
       
         <?php if($user->loggedIn()): ?>

@@ -11,13 +11,31 @@
     </video>
   <?php endif; ?>
 
-  <h3><?php echo $upload_data->upload_title; ?></h3>
-  <span>
-    <p>By <a href="<?php echo BASE_URL; ?>/profile?user=<?php echo $upload_data->user_username; ?>"><?php echo $upload_data->user_username; ?></a></p>
-    <p><?php echo date('l j F Y \a\t H:i', strtotime($upload_data->upload_date)); ?></p>
-  </span>
-  <p><?php echo $upload_data->upload_description; ?></p>
+  <div class="upload-info">
+    <h3><?php echo $upload_data->upload_title; ?></h3>
+
+    <h6>By <a href="<?php echo BASE_URL; ?>/profile?u=<?php echo $upload_data->user_username; ?>"><?php echo $upload_data->user_username; ?></a> on <?php echo date('l j F Y \a\t H:i', strtotime($upload_data->upload_date)); ?></h6>
+
+    <p><?php echo $upload_data->upload_description; ?></p>
+
+    <span>
+      <img src="<?php echo BASE_URL; ?>/public/img/views.svg"> <?php echo($upload_data->upload_views); ?>
+
+      <?php if($user->loggedIn()): ?>
+        <?php if(!findValue($favorite_data, 'favorite_user', $user->data()->user_id)): ?>
+          <a href="<?php echo BASE_URL; ?>/favorite?id=<?php echo $upload_data->upload_id; ?>"><img src="<?php echo BASE_URL; ?>/public/img/favorite.svg"></a>
+        <?php else: ?>
+          <a href="<?php echo BASE_URL; ?>/unfavorite?id=<?php echo $upload_data->upload_id; ?>"><img src="<?php echo BASE_URL; ?>/public/img/unfavorite.svg"></a>
+        <?php endif; ?>
+        
+        <?php echo count($favorite_data); ?>
+      <?php else: ?>
+        <img src="<?php echo BASE_URL; ?>/public/img/unfavorite.svg"> <?php echo count($favorite_data); ?>
+      <?php endif; ?>
+    </span>
+  </div>
 </div>
+
 <div class="comments">
   <?php if($user->loggedIn()): ?>
     <div class="form">
@@ -33,6 +51,7 @@
           <textarea name="comment_text"></textarea>
         </div>
         <div class="form-group">
+          <input type="hidden" name="token" value="<?php echo Hash::generateToken('token'); ?>">
           <input type="submit" name="submit_comment" value="Comment">
         </div>
       </form>
@@ -41,7 +60,7 @@
 
   <div class="comments-list">
     <?php if(!$comments): ?>
-      <h3>No Comments</h3>
+      <h3 class="site-notice">No Comments</h3>
     <?php else: ?>
       <h3>Comments</h3>
 
@@ -49,7 +68,7 @@
         <div class="comment">
           <p><?php echo $comment->comment_text; ?></p>
           <span>
-            By <a href="<?php echo BASE_URL; ?>/profile?user=<?php echo $comment->user_username; ?>"><?php echo $comment->user_name; ?></a> on <?php echo date('l j F Y \a\t H:i', strtotime($comment->comment_date)); ?>
+            By <a href="<?php echo BASE_URL; ?>/profile?u=<?php echo $comment->user_username; ?>"><?php echo $comment->user_name; ?></a> on <?php echo date('l j F Y \a\t H:i', strtotime($comment->comment_date)); ?>
             
             <?php if($user->loggedIn()): ?>
               <?php if($user->data()->user_id === $comment->comment_by): ?>

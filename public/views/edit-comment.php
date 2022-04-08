@@ -15,6 +15,7 @@
       <textarea name="comment_text"><?php echo $comment->comment_text; ?></textarea>
     </div>
     <div class="form-group">
+      <input type="hidden" name="token" value="<?php echo Hash::generateToken('token'); ?>">
       <input type="submit" name="edit_comment" value="Edit Comment">
     </div>
   </form>
@@ -25,6 +26,7 @@
 
   <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
     <div class="form-group">
+      <input type="hidden" name="delete-token" value="<?php echo Hash::generateToken('delete-token'); ?>">
       <input type="submit" name="delete_comment" value="Delete Comment">
     </div>
   </form>

@@ -23,7 +23,11 @@
       </label>
     </div>
     <div class="form-group">
+      <input type="hidden" name="token" value="<?php echo Hash::generateToken('token'); ?>">
       <input type="submit" name="login" value="Log In">
+    </div>
+    <div class="form-group">
+      <p>Don't have an account? <a href="<?php echo BASE_URL; ?>/signup">Sign Up</a>.</p>
     </div>
   </form>
 </div>

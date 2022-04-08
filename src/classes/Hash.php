@@ -15,4 +15,18 @@ class Hash {
   public static function verifyPassword($password, $hash) {
     return (password_verify($password, $hash)) ? true : false;
   }
+
+  public static function generateToken($name) {
+    return Session::set($name, self::make(self::random()));
+  }
+
+  public static function checkToken($token, $name) {
+    if(Session::exists($name) && $token === Session::get($name)) {
+      Session::unset($name);
+
+      return true;
+    }
+
+    return false;
+  }
 }

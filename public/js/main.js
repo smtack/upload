@@ -16,16 +16,18 @@ toggleSearch.addEventListener("click", () => {
   } else {
     search.style.display = "none";
   }
-});
+})
 
 closeSearch.addEventListener("click", () => {
   search.style.display = "none";
-});
+})
 
-toggleMenu.addEventListener("click", () => {
-  if(menu.style.display == "none") {
-    menu.style.display = "block";
-  } else {
-    menu.style.display = "none";
-  }
-});
+if(toggleMenu) {
+  toggleMenu.addEventListener("click", () => {
+    if(menu.style.display == "none") {
+      menu.style.display = "block";
+    } else {
+      menu.style.display = "none";
+    }
+  })
+}
