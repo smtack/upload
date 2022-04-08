@@ -8,7 +8,8 @@ $keywords = Input::get('s') ? Input::get('s') : '';
 $keywords = escape($keywords);
 $keywords = "%{$keywords}%";
 
-$results = $upload->searchUploads($keywords);
+$user_results = $user->searchUsers($keywords);
+$upload_results = $upload->searchUploads($keywords);
 
 $page_title = "Upload - Search: " . str_replace('%', '', $keywords);
 

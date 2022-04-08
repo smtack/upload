@@ -10,49 +10,51 @@ if(!$user->loggedIn()) {
 $page_title = "Upload - New Upload";
 
 if(Input::exists($_POST, 'upload')) {
-  $validate = new Validate();
+  if(Hash::checkToken(Input::get('token'), 'token')) {
+    $validate = new Validate();
 
-  $validation = $validate->check($_POST, array(
-    'upload_title' => array(
-      'required' => true,
-      'min' => 1,
-      'max' => 150
-    ),
-    'upload_description' => array(
-      'max' => 500
-    )
-  ));
-
-  if($validation->passed()) {
-    if(!empty($_FILES['upload_file']['name'])) {
-      $upload = new Upload();
-
-      $upload_dir = 'uploads/uploads/';
-      $file_name = basename($_FILES['upload_file']['name']);
-      $path = $upload_dir . $file_name;
-      $file_type = pathinfo($path, PATHINFO_EXTENSION);
-      $allow_types = array('mp4', 'jpg', 'png', 'PNG', 'gif');
+    $validation = $validate->check($_POST, array(
+      'upload_title' => array(
+        'required' => true,
+        'min' => 1,
+        'max' => 150
+      ),
+      'upload_description' => array(
+        'max' => 500
+      )
+    ));
   
-      if(in_array($file_type, $allow_types)) {
-        if(move_uploaded_file($_FILES['upload_file']['tmp_name'], $path)) {
-          if($upload->newUpload(array(
-            'upload_file' => $file_name,
-            'upload_title' => escape(Input::get('upload_title')),
-            'upload_description' => escape(Input::get('upload_description')),
-            'upload_by' => $user->data()->user_id
-          ))) {
-            Redirect::to(BASE_URL);
+    if($validation->passed()) {
+      if(!empty($_FILES['upload_file']['name'])) {
+        $upload = new Upload();
+  
+        $upload_dir = 'uploads/uploads/';
+        $file_name = basename($_FILES['upload_file']['name']);
+        $path = $upload_dir . $file_name;
+        $file_type = pathinfo($path, PATHINFO_EXTENSION);
+        $allow_types = array('mp4', 'jpg', 'png', 'PNG', 'gif');
+    
+        if(in_array($file_type, $allow_types)) {
+          if(move_uploaded_file($_FILES['upload_file']['tmp_name'], $path)) {
+            if($upload->newUpload(array(
+              'upload_file' => $file_name,
+              'upload_title' => escape(Input::get('upload_title')),
+              'upload_description' => escape(Input::get('upload_description')),
+              'upload_by' => $user->data()->user_id
+            ))) {
+              Redirect::to(BASE_URL);
+            } else {
+              $validation->addError("Unable to make upload");
+            }
           } else {
             $validation->addError("Unable to make upload");
           }
         } else {
-          $validation->addError("Unable to make upload");
+          $validation->addError("This file type is not supported");
         }
       } else {
-        $validation->addError("This file type is not supported");
+        $validation->addError("Select a file to upload");
       }
-    } else {
-      $validation->addError("Select a file to upload");
     }
   }
 }

@@ -33,9 +33,9 @@ class User {
       Session::set($this->session_name, $this->data()->user_id);
 
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   }
 
   public function find($user = null) {
@@ -80,8 +80,6 @@ class User {
           }
 
           return true;
-        } else {
-          return false;
         }
       }
     }
@@ -93,6 +91,7 @@ class User {
     $this->db->delete('users_session', array('user_id', '=', $this->data()->user_id));
 
     Session::unset($this->session_name);
+
     Cookie::delete($this->cookie_name);
   }
 
@@ -103,12 +102,12 @@ class User {
 
     if($this->db->update('users', 'user_id', $id, $fields)) {
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   }
 
-  public function deleteProfile() {
+  public function deleteProfile($id = null) {
     if(!$id && $this->loggedIn()) {
       $id = $this->data()->user_id;
     }
@@ -117,21 +116,92 @@ class User {
       $this->logout();
 
       return true;
+    }
+
+    return false;
+  }
+
+  public function getProfile($user) {
+    if(is_numeric($user)) {
+      $id = $user;
     } else {
-      return false;
+      $username = $user;
+    }
+    
+    $sql = "SELECT
+              *
+            FROM
+              users
+            WHERE
+              user_id = ?
+            OR
+              user_username = ?";
+    
+    $stmt = $this->db->pdo->prepare($sql);
+
+    $stmt->bindParam(1, $id);
+    $stmt->bindParam(2, $username);
+
+    if($stmt->execute()) {
+      return $stmt->fetch();
+    }
+
+    return false;
+  }
+
+  public function searchUsers($keywords) {
+    $results = $this->db->select('users', array(), array('user_username', 'LIKE', $keywords), 'user_joined');
+
+    if($results->count()) {
+      return $results->results();
+    } else {
+      return '';
     }
   }
 
-  public function getProfile($username) {
-    $row = $this->db->select('users', array(), array('user_username', '=', $username));
-    
-    if($row->count()) {
-      $profile = $row->first();
-
-      return $profile;
-    } else {
-      return false;
+  public function follow($follow) {
+    if($this->db->insert('follows', $follow)) {
+      return true;
     }
+
+    return false;
+  }
+
+  public function unfollow($follow) {
+    $sql = "DELETE FROM follows WHERE follow_user = ? AND follow_following = ?";
+
+    $stmt = $this->db->pdo->prepare($sql);
+
+    $stmt->bindParam(1, $follow['follow_user']);
+    $stmt->bindParam(2, $follow['follow_following']);
+
+    if($stmt->execute()) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public function getFollowsData($user) {
+    $sql = "SELECT * FROM follows WHERE follow_following = $user";
+
+    $stmt = $this->db->pdo->prepare($sql);
+
+    if($stmt->execute()) {
+      return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    return false;
+  }
+
+  public function getUsersFollows($user) {
+    $rows = $this->db->select('users', array('follows', 'users.user_id', 'follows.follow_following'), array('follow_user', '=', $user));
+
+    if($rows->count()) {
+      return $rows->results();
+    }
+
+    return false;
   }
 
   public function exists() {

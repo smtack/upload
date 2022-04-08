@@ -21,6 +21,7 @@
       <input type="text" name="user_email" value="<?php echo $user->data()->user_email; ?>">
     </div>
     <div class="form-group">
+      <input type="hidden" name="token" value="<?php echo Hash::generateToken('token'); ?>">
       <input type="submit" name="update_profile" value="Update Profile">
     </div>
   </form>
@@ -40,6 +41,7 @@
       <input type="file" name="user_profile_picture">
     </div>
     <div class="form-group">
+      <input type="hidden" name="picture-token" value="<?php echo Hash::generateToken('picture-token'); ?>">
       <input type="submit" name="upload_profile_picture" value="Upload Profile Picture">
     </div>
   </form>
@@ -65,6 +67,7 @@
       <input type="password" name="confirm_password" placeholder="Confirm Password">
     </div>
     <div class="form-group">
+      <input type="hidden" name="password-token" value="<?php echo Hash::generateToken('password-token'); ?>">
       <input type="submit" name="change_password" value="Change Password">
     </div>
   </form>
@@ -73,7 +76,18 @@
   <h2>Delete Profile</h2>
 
   <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+    <?php if(isset($delete_validation)): ?>
+      <?php foreach($delete_validation->errors() as $message): ?>
+        <div class="form-group">
+          <p class="message error"><?php echo $message; ?></p>
+        </div>
+      <?php endforeach; ?>
+    <?php endif; ?>
     <div class="form-group">
+      <input type="password" name="user_password" placeholder="Enter Password">
+    </div>
+    <div class="form-group">
+      <input type="hidden" name="delete-token" value="<?php echo Hash::generateToken('delete-token'); ?>">
       <input type="submit" name="delete_profile" value="Delete Profile">
     </div>
   </form>

@@ -12,7 +12,9 @@ a {
 }
 
 .header {
+  width: 100%;
   height: 75px;
+  background-color: #ffffff;
   border-bottom: 1px solid #d3d3d3;
   padding: 0 10%;
 }
@@ -32,6 +34,24 @@ a {
 .header ul li {
   margin-left: 15px;
   display: inline-block;
+}
+
+.header ul li img {
+  width: 24px;
+  border-radius: 50%;
+}
+
+.header ul li button {
+  background-color: #000000;
+  color: #ffffff;
+  border: 0;
+  border-radius: 5px;
+  padding: 7.5px;
+  vertical-align: bottom;
+}
+
+.header ul li button:hover {
+  cursor: pointer;
 }
 
 .toggle-menu:hover,
@@ -81,9 +101,10 @@ a {
 }
 
 .search h1 {
-  position: fixed;
+  position: absolute;
   top: 15vh;
-  left: 10%;
+  font-size: 24px;
+  margin-left: 10%;
 }
 
 .search input {
@@ -116,17 +137,17 @@ a {
   width: 80%;
   min-height: 100px;
   margin: 0 auto;
-  padding-bottom: 25px;
+  padding: 25px 0;
 }
 
 .form {
   width: 500px;
-  margin: 0 auto;
+  margin: 50px auto;
 }
 
 .form h2 {
-  padding: 50px;
-  text-align: center;
+  padding: 25px 0;
+  font-style: italic;
 }
 
 .form-group {
@@ -179,10 +200,7 @@ a {
   border: 1px solid #000000;
 }
 
-.form-group img {
-  width: 100%;
-}
-
+.form-group img,
 .form-group video {
   width: 100%;
 }
@@ -202,6 +220,11 @@ a {
   background-color: #d1ecf1;
   color: #0c5460;
   border: 1px solid #0c5460;
+}
+
+.site-notice {
+  font-weight: 100;
+  margin: 25px 0;
 }
 
 .uploads {
@@ -224,6 +247,7 @@ a {
 .upload-box h3 {
   margin: 15px 0;
   text-align: left;
+  font-weight: 100;
 }
 
 .upload-box p {
@@ -235,7 +259,7 @@ a {
 
 .upload-box img,
 .upload-box video {
-  width: 100%;
+  max-width: 100%;
   min-height: 150px;
   max-height: 150px;
 }
@@ -260,6 +284,26 @@ a {
   padding: 10px 0;
 }
 
+.info span {
+  display: block;
+  color: #818181;
+  padding: 5px 0;
+}
+
+.info button {
+  margin: 10px 0 0 0;
+  padding: 10px;
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
+}
+
+.info button:hover {
+  background-color: #ffffff;
+  color: #000000;
+  cursor: pointer;
+}
+
 .users-uploads {
   width: 60%;
   min-height: 100px;
@@ -272,13 +316,14 @@ a {
 
 .upload {
   width: 80%;
-  margin: 50px auto;
+  margin: 0 auto;
   text-align: center;
 }
 
 .upload img {
-  width: 100%;
-  margin: 0 auto;
+  max-width: 100%;
+  max-height: 80vh;
+  text-align: center;
 }
 
 .upload video {
@@ -288,13 +333,18 @@ a {
 }
 
 .upload h3,
+.upload h4,
+.upload h6,
+.upload span,
 .upload p {
+  display: block;
   text-align: left;
   margin: 10px 0;
+  font-weight: 100;
 }
 
-.upload span {
-  color: #818181;
+.upload-info {
+  border-top: 1px solid #d3d3d3;
 }
 
 .comments {
@@ -340,6 +390,10 @@ a {
   font-style: italic;
 }
 
+.results p {
+  padding: 25px 0;
+}
+
 .result {
   width: 100%;
   margin: 25px 0;
@@ -360,7 +414,7 @@ a {
 
 .result .result-img img,
 .result .result-img video {
-  width: 100%;
+  max-width: 100%;
   max-height: 150px;
 }
 
@@ -377,6 +431,28 @@ a {
 
 .result .result-content p {
   font-size: 14px;
+  padding: 5px 0;
+}
+
+.result .result-content button {
+  margin: 10px 0 0 0;
+  padding: 10px;
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid #000000;
+}
+
+.result .result-content button:hover {
+  background-color: #ffffff;
+  color: #000000;
+  cursor: pointer;
+}
+
+.error-message {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  padding: 50px;
 }
 
 .footer {
@@ -391,7 +467,15 @@ a {
   padding: 25px;
 }
 
-@media(max-width: 800px) {
+@media(max-width: 900px) {
+  .header {
+    padding: 0 5%;
+  }
+
+  .header ul {
+    right: 5%;
+  }
+
   .container,
   .comments .form {
     width: 100%;
@@ -409,17 +493,18 @@ a {
   }
 
   .result {
-    display: block;
     padding: 25px 0;
   }
   
   .result .result-img {
-    width: 100%;
+    width: 50%;
     height: 200px;
-    float: none;
+    margin-right: 25px;
+    padding: 0;
   }
   
   .result .result-content {
     margin: 0;
+    padding: 0;
   }
 }

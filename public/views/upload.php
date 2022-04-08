@@ -21,6 +21,7 @@
       <textarea name="upload_description" placeholder="Description"></textarea>
     </div>
     <div class="form-group">
+      <input type="hidden" name="token" value="<?php echo Hash::generateToken('token'); ?>">
       <input type="submit" name="upload" value="Upload">
     </div>
   </form>

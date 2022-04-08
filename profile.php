@@ -4,12 +4,13 @@ require_once 'src/init.php';
 $user = new User();
 $upload = new Upload();
 
-if(!$username = Input::get('user')) {
+if(!$username = Input::get('u')) {
   Redirect::to(BASE_URL);
 } else {
   if(!$profile = $user->getProfile($username)) {
     Redirect::to(404);
   } else {
+    $follows_data = $user->getFollowsData($profile->user_id);
     $users_uploads = $upload->getUsersUploads($profile->user_id);
   }
 }

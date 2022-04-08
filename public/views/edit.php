@@ -29,6 +29,7 @@
       <textarea name="upload_description"><?php echo $upload_data->upload_description; ?></textarea>
     </div>
     <div class="form-group">
+      <input type="hidden" name="token" value="<?php echo Hash::generateToken('token'); ?>">
       <input type="submit" name="edit" value="Edit">
     </div>
   </form>
@@ -39,6 +40,7 @@
 
   <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
     <div class="form-group">
+      <input type="hidden" name="delete-token" value="<?php echo Hash::generateToken('delete-token'); ?>">
       <input type="submit" name="delete_upload" value="Delete Upload">
     </div>
   </form>

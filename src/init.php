@@ -1,6 +1,14 @@
 <?php
-require 'config.php';
-require 'functions.php';
+require_once 'config.php';
+require_once 'functions.php';
+
+spl_autoload_register(function($class) {
+  require_once 'classes/' . $class . '.php';
+});
+
+set_error_handler('errorHandler');
+ini_set('display_errors', 'on');
+error_reporting(E_ALL);
 
 session_start();
 
@@ -17,13 +25,10 @@ $GLOBALS['config'] = array(
     'cookie_expiry' => 604800
   ),
   'session' => array(
-    'session_name' => 'user'
+    'session_name' => 'user',
+    'token_name' => 'token'
   )
 );
-
-spl_autoload_register(function($class) {
-  require_once 'classes/' . $class . '.php';
-});
 
 if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))) {
   $hash = Cookie::get(Config::get('remember/cookie_name'));

@@ -2,11 +2,12 @@
 class Database {
   private static $instance = null;
 
-  private $pdo;
+  public $pdo;
+
   private $query;
   private $error = false;
   private $results;
-  private $count = 0; 
+  private $count = 0;
   private $dsn;
   private $options;
 
