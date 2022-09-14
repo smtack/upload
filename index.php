@@ -10,6 +10,4 @@ if($user->loggedIn()) {
   $uploads = $upload->getUploads();
 }
 
-$img_exts = array('jpg', 'png', 'PNG', 'gif');
-
 require VIEW_ROOT . '/index.php';

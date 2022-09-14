@@ -6,12 +6,15 @@ class Redirect {
         switch($location) {
           case 404:
             header('HTTP/1.0 404 Not Found');
+
             include 'public/views/errors/404.php';
+
             exit();
           break;
         }
       } else {
         header('Location: ' . $location);
+        
         exit();
       }
     }

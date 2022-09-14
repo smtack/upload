@@ -3,7 +3,7 @@
 <div class="form">
   <h2>Log In</h2>
     
-  <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+  <form action="<?php $self; ?>" method="POST">
     <?php if(isset($validation)): ?>
       <?php foreach($validation->errors() as $message): ?>
         <div class="form-group">

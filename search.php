@@ -13,6 +13,4 @@ $upload_results = $upload->searchUploads($keywords);
 
 $page_title = "Upload - Search: " . str_replace('%', '', $keywords);
 
-$img_exts = array('jpg', 'png', 'PNG', 'gif');
-
 require VIEW_ROOT . '/search.php';

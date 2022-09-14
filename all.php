@@ -6,6 +6,4 @@ $upload = new Upload();
 
 $uploads = $upload->getUploads();
 
-$img_exts = array('jpg', 'png', 'PNG', 'gif');
-
 require VIEW_ROOT . '/all.php';

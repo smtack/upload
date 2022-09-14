@@ -22,19 +22,19 @@ if(!$id = Input::get('id')) {
 
 $page_title = "Upload - Edit Post: " . $upload_data->upload_title;
 
-$img_exts = array('jpg', 'png', 'PNG', 'gif');
-
 if(Input::exists($_POST, 'edit')) {
   if(Hash::checkToken(Input::get('token'), 'token')) {
     $validate = new Validate();
 
     $validation = $validate->check($_POST, array(
       'upload_title' => array(
+        'name' => 'Title',
         'required' => true,
         'min' => 1,
         'max' => 150
       ),
       'upload_description' => array(
+        'name' => 'Description',
         'max' => 500
       )
     ));

@@ -15,11 +15,13 @@ if(Input::exists($_POST, 'upload')) {
 
     $validation = $validate->check($_POST, array(
       'upload_title' => array(
+        'name' => 'Title',
         'required' => true,
         'min' => 1,
         'max' => 150
       ),
       'upload_description' => array(
+        'name' => 'Description',
         'max' => 500
       )
     ));

@@ -17,6 +17,4 @@ if(!$username = Input::get('u')) {
 
 $page_title = "Upload - " . $profile->user_name . "'s Profile";
 
-$img_exts = array('jpg', 'png', 'PNG', 'gif');
-
 require VIEW_ROOT . '/profile.php';

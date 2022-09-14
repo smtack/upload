@@ -14,30 +14,34 @@ class Validate {
         $value = trim($source[$item]);
         $item = escape($item);
 
+        if($rule == 'name') {
+          $name = $rule_value;
+        }
+
         if($rule === 'required' && empty($value)) {
-          $this->addError("{$item} is required");
+          $this->addError("{$name} is required");
         } else if(!empty($value)) {
           switch($rule) {
             case 'min':
               if(strlen($value) < $rule_value) {
-                $this->addError("{$item} must be a minimum of {$rule_value} characters.");
+                $this->addError("{$name} must be a minimum of {$rule_value} characters.");
               }
             break;
             case 'max':
               if(strlen($value) > $rule_value) {
-                $this->addError("{$item} must be a maximum of {$rule_value} characters.");
+                $this->addError("{$name} must be a maximum of {$rule_value} characters.");
               }
             break;
             case 'matches':
               if($value != $source[$rule_value]) {
-                $this->addError("{$rule_value} must match {$item}");
+                $this->addError("{$rule_value} must match {$name}");
               }
             break;
             case 'unique':
               $check = $this->db->select($rule_value, array(), array($item, '=', $value));
 
               if($check->count()) {
-                $this->addError("{$item} already exists.");
+                $this->addError("{$name} already exists.");
               }
             break;
           }

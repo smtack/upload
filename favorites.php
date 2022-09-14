@@ -10,6 +10,4 @@ if(!$user->loggedIn()) {
   $uploads = $upload->getUsersFavorites($user->data()->user_id);
 }
 
-$img_exts = array('jpg', 'png', 'PNG', 'gif');
-
 require VIEW_ROOT . '/favorites.php';

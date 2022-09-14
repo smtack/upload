@@ -6,7 +6,7 @@ spl_autoload_register(function($class) {
   require_once 'classes/' . $class . '.php';
 });
 
-set_error_handler('errorHandler');
+// set_error_handler('errorHandler');
 ini_set('display_errors', 'on');
 error_reporting(E_ALL);
 
@@ -39,3 +39,12 @@ if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Confi
     $user->login();
   }
 }
+
+$self = $_SERVER['PHP_SELF'];
+
+$image_extensions = array(
+  'jpg',
+  'png',
+  'PNG',
+  'gif'
+);

@@ -14,8 +14,14 @@ if(Input::exists($_POST, 'login')) {
     $validate = new Validate();
 
     $validation = $validate->check($_POST, array(
-      'user_username' => array('required' => true),
-      'user_password' => array('required' => true)
+      'user_username' => array(
+        'name' => 'Username',
+        'required' => true
+      ),
+      'user_password' => array(
+        'name' => 'Password',
+        'required' => true
+      )
     ));
   
     if($validation->passed()) {

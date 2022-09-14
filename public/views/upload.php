@@ -3,7 +3,7 @@
 <div class="form">
   <h2>New Upload</h2>
 
-  <form enctype="multipart/form-data" action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+  <form enctype="multipart/form-data" action="<?php $self; ?>" method="POST">
     <?php if(isset($validation)): ?>
       <?php foreach($validation->errors() as $message): ?>
         <div class="form-group">

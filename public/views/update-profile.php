@@ -3,7 +3,7 @@
 <div class="form">
   <h2>Update Profile</h2>
 
-  <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+  <form action="<?php $self; ?>" method="POST">
     <?php if(isset($validation)): ?>
       <?php foreach($validation->errors() as $message): ?>
         <div class="form-group">
@@ -12,13 +12,13 @@
       <?php endforeach; ?>
     <?php endif; ?>
     <div class="form-group">
-      <input type="text" name="user_name" value="<?php echo $user->data()->user_name; ?>">
+      <input type="text" name="user_name" value="<?php echo escape($user->data()->user_name); ?>">
     </div>
     <div class="form-group">
-      <input type="text" name="user_username" value="<?php echo $user->data()->user_username; ?>">
+      <input type="text" name="user_username" value="<?php echo escape($user->data()->user_username); ?>">
     </div>
     <div class="form-group">
-      <input type="text" name="user_email" value="<?php echo $user->data()->user_email; ?>">
+      <input type="text" name="user_email" value="<?php echo escape($user->data()->user_email); ?>">
     </div>
     <div class="form-group">
       <input type="hidden" name="token" value="<?php echo Hash::generateToken('token'); ?>">
@@ -29,7 +29,7 @@
 <div class="form">
   <h2>Upload Profile Picture</h2>
 
-  <form enctype="multipart/form-data" action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+  <form enctype="multipart/form-data" action="<?php $self; ?>" method="POST">
     <?php if(isset($picture_validation)): ?>
       <?php foreach($picture_validation->errors() as $message): ?>
         <div class="form-group">
@@ -49,7 +49,7 @@
 <div class="form">
   <h2>Change Password</h2>
 
-  <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+  <form action="<?php $self; ?>" method="POST">
     <?php if(isset($password_validation)): ?>
       <?php foreach($password_validation->errors() as $message): ?>
         <div class="form-group">
@@ -75,7 +75,7 @@
 <div class="form">
   <h2>Delete Profile</h2>
 
-  <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+  <form action="<?php $self; ?>" method="POST">
     <?php if(isset($delete_validation)): ?>
       <?php foreach($delete_validation->errors() as $message): ?>
         <div class="form-group">

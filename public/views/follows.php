@@ -8,14 +8,14 @@
   <?php else: ?>
     <?php foreach($follows as $follow): ?>
       <div class="result">
-        <div class="result-img">
-          <?php if($follow->user_profile_picture): ?>
-            <img src="<?php echo BASE_URL; ?>/uploads/profile-pictures/<?php echo $follow->user_profile_picture; ?>" alt="<?php echo $follow->user_profile_picture; ?>">
-          <?php endif; ?>
+        <div id="profile-picture">
+          <img src="<?php echo BASE_URL; ?>/uploads/profile-pictures/<?php echo escape($follow->user_profile_picture); ?>" alt="<?php echo escape($follow->user_profile_picture); ?>">
         </div>
-        <div class="result-content">
-          <h3><a href="<?php echo BASE_URL; ?>/profile?u=<?php echo $follow->user_username; ?>"><?php echo $follow->user_username; ?></a></h3>
-          <a href="<?php echo BASE_URL; ?>/unfollow?u=<?php echo $follow->user_id; ?>"><button>Unfollow</button></a>
+        <div id="user-info">
+          <h3><a href="<?php echo BASE_URL; ?>/profile?u=<?php echo escape($follow->user_username); ?>"><?php echo escape($follow->user_name); ?></a></h3>
+          <h4><?php echo escape($follow->user_username); ?></h4>
+          <h5>Joined on <?php echo date('l j F Y \a\t H:i', strtotime(escape($follow->user_joined))); ?></h5>
+          <a href="<?php echo BASE_URL; ?>/unfollow?u=<?php echo escape($follow->user_id); ?>"><button>Unfollow</button></a>
         </div>
       </div>
     <?php endforeach; ?>

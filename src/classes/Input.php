@@ -8,6 +8,8 @@ class Input {
       case $_GET:
         return (!empty($_GET[$form])) ? true : false;
       break;
+      case $_REQUEST:
+        return (!empty($_REQUEST[$form])) ? true : false;
       default:
         return false;
       break;
@@ -19,6 +21,8 @@ class Input {
       return $_POST[$item];
     } else if(isset($_GET[$item])) {
       return $_GET[$item];
+    } else if(isset($_REQUEST[$item])) {
+      return $_REQUEST[$item];
     }
 
     return '';

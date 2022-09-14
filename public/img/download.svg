@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Views</title>
+    <title>Download</title>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Views">
+        <g id="Download">
             <rect id="Rectangle" fill-rule="nonzero" x="0" y="0" width="24" height="24"></rect>
-            <path d="M21,12 C21,12 18,19 12,19 C6,19 3,12 3,12 C3,12 6,5 12,5 C18,5 21,12 21,12 Z" id="Path" stroke="#0C0310" stroke-width="2" stroke-linecap="round"></path>
-            <circle id="Oval" stroke="#0C0310" stroke-width="2" stroke-linecap="round" cx="12" cy="12" r="3"></circle>
+            <line x1="12" y1="6" x2="12" y2="17.5" id="Path" stroke="#0C0310" stroke-width="2" stroke-linecap="round"></line>
+            <path d="M16,14 L12.7071,17.2929 C12.3166,17.6834 11.6834,17.6834 11.2929,17.2929 L8,14" id="Path" stroke="#0C0310" stroke-width="2" stroke-linecap="round"></path>
         </g>
     </g>
 </svg>

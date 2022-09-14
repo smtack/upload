@@ -19,14 +19,13 @@ $page_title = "Upload - " . $upload_data->upload_title;
 
 $favorite_data = $upload->getFavoritesData($id);
 
-$img_exts = array('jpg', 'png', 'PNG', 'gif');
-
 if(Input::exists($_POST, 'submit_comment')) {
   if(Hash::checkToken(Input::get('token'), 'token')) {
     $validate = new Validate();
 
     $validation = $validate->check($_POST, array(
       'comment_text' => array(
+        'name' => 'Comment',
         'required' => true,
         'min' => 1,
         'max' => 255

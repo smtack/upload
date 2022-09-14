@@ -15,28 +15,33 @@ if(Input::exists($_POST, 'signup')) {
 
     $validation = $validate->check($_POST, array(
       'user_name' => array(
+        'name' => 'Name',
         'required' => true,
         'min' => 1,
         'max' => 50
       ),
       'user_username' => array(
+        'name' => 'Username',
         'required' => true,
         'min' => 3,
         'max' => 25,
         'unique' => 'users'
       ),
       'user_email' => array(
+        'name' => 'Email',
         'required' => true,
         'min' => 5,
         'max' => 128,
         'unique' => 'users'
       ),
       'user_password' => array(
+        'name' => 'Password',
         'required' => true,
         'min' => 3,
         'max' => 128
       ),
       'confirm_password' => array(
+        'name' => 'Confirm Password',
         'required' => true,
         'matches' => 'user_password'
       )

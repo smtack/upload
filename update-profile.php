@@ -14,16 +14,19 @@ if(Input::exists($_POST, 'update_profile')) {
   if(Hash::checkToken(Input::get('token'), 'token')) {
     $validation = $validate->check($_POST, array(
       'user_name' => array(
+        'name' => 'Name',
         'required' => true,
         'min' => 1,
         'max' => 50
       ),
       'user_username' => array(
+        'name' => 'Username',
         'required' => true,
         'min' => 3,
         'max' => 25,
       ),
       'user_email' => array(
+        'name' => 'Email',
         'required' => true,
         'min' => 5,
         'max' => 128,
@@ -86,14 +89,17 @@ if(Input::exists($_POST, 'change_password')) {
   if(Hash::checkToken(Input::get('password-token'), 'password-token')) {
     $password_validation = $validate->check($_POST, array(
       'current_password' => array(
+        'name' => 'Current Password',
         'required' => true
       ),
       'new_password' => array(
+        'name' => 'New Password',
         'required' => true,
         'min' => 3,
         'max' => 128
       ),
       'confirm_password' => array(
+        'name' => 'Confirm Password',
         'required' => true,
         'matches' => 'new_password'
       )
@@ -117,6 +123,7 @@ if(Input::exists($_POST, 'delete_profile')) {
   if(Hash::checkToken(Input::get('delete-token'), 'delete-token')) {
     $delete_validation = $validate->check($_POST, array(
       'user_password' => array(
+        'name' => 'Password',
         'required' => true
       )
     ));

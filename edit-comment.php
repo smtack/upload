@@ -28,6 +28,7 @@ if(Input::exists($_POST, 'edit_comment')) {
 
     $validation = $validate->check($_POST, array(
       'comment_text' => array(
+        'name' => 'Comment',
         'required' => true,
         'min' => 1,
         'max' => 255
