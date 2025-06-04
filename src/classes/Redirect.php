@@ -7,7 +7,7 @@ class Redirect {
           case 404:
             header('HTTP/1.0 404 Not Found');
 
-            include 'public/views/errors/404.php';
+            include_once __DIR__ . '/../../public/errors/404.php';
 
             exit();
           break;

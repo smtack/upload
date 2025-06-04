@@ -64,7 +64,7 @@ class User {
           Session::set($this->session_name, $this->data()->user_id);
 
           if($remember) {
-            $hash = Hash::random();
+            $hash = Hash::random(128);
             $hash_check = $this->db->select('users_session', array(), array('user_id', '=', $this->data()->user_id));
 
             if(!$hash_check->count()) {

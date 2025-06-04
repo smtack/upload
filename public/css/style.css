@@ -38,6 +38,7 @@ a {
 
 .header ul li img {
   width: 24px;
+  height: 24px;
   border-radius: 50%;
 }
 
@@ -287,6 +288,8 @@ a {
 
 #profile-picture img {
   width: 100px;
+  height: 100px;
+  border-radius: 50%;
 }
 
 #user-info {
@@ -368,22 +371,22 @@ a {
 }
 
 .comments .form {
+  width: 100%;
   margin: 0;
 }
 
 .comments .form-group textarea {
   height: 150px;
+  width: 100%;
 }
 
 .comment {
-  margin: 25px 0;
+  margin: 10px 0;
   padding: 15px 0;
-  background-color: #ffffff;
-  border-radius: 5px;
 }
 
 .comment p {
-  margin: 15px 0;
+  margin: 10px 0;
 }
 
 .comment h5 {
@@ -454,10 +457,6 @@ a {
 }
 
 @media(max-width: 900px) {
-  .comments .form {
-    width: 100%;
-  }
-
   .info {
     width: 90%;
   }

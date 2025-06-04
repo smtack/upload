@@ -4,8 +4,8 @@ class Hash {
     return hash('sha256', $string);
   }
 
-  public static function random() {
-    return bin2hex(random_bytes(256));
+  public static function random($length) {
+    return bin2hex(random_bytes($length));
   }
 
   public static function createPassword($password) {
@@ -17,7 +17,7 @@ class Hash {
   }
 
   public static function generateToken($name) {
-    return Session::set($name, self::make(self::random()));
+    return Session::set($name, self::make(self::random(256)));
   }
 
   public static function checkToken($token, $name) {
@@ -28,5 +28,15 @@ class Hash {
     }
 
     return false;
+  }
+
+  public static function createUniqueFilename($user, $filename) {
+    $hash_username = self::make($user);
+
+    $hash_filename = self::make($filename);
+
+    $unique_filename = $hash_username . $hash_filename . uniqid();
+
+    return $unique_filename;
   }
 }

@@ -6,9 +6,13 @@ spl_autoload_register(function($class) {
   require_once 'classes/' . $class . '.php';
 });
 
-// set_error_handler('errorHandler');
+// Error Reporting
 ini_set('display_errors', 'on');
+ini_set('display_startup_errors', 'on');
+ini_set('log_errors', 'on');
+
 error_reporting(E_ALL);
+// set_error_handler('errorHandler');
 
 session_start();
 
@@ -44,7 +48,19 @@ $self = $_SERVER['PHP_SELF'];
 
 $image_extensions = array(
   'jpg',
+  'jpeg',
+  'JPEG',
   'png',
   'PNG',
-  'gif'
+  'gif',
+);
+
+$allowed_upload_extensions = array(
+  'mp4',
+  'jpg',
+  'jpeg',
+  'JPEG',
+  'png',
+  'PNG',
+  'gif',
 );

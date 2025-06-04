@@ -1,0 +1,11 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    Options -Indexes
+    Options -MultiViews
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    RewriteRule ^([a-zA-Z-]+)/?([a-zA-Z0-9-/]*)$ $1.php?page=$1&query=$2 [QSA,L]
+</IfModule>

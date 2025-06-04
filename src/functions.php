@@ -5,11 +5,13 @@ function escape($string) {
   return htmlentities($string, ENT_QUOTES, 'UTF-8');
 }
 
-// Handle PHP Errors
+// Custom error page
 
 function errorHandler() {
   if(error_reporting()) {
-    include_once 'public/views/errors/error.php';
+    require_once __DIR__ . '/../public/errors/error.php';
+
+    exit();
   }
 }
 
