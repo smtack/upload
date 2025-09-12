@@ -7,7 +7,7 @@
   <div id="user-info">
     <h2><?php echo escape($profile->user_name); ?></h2>
     <h4><?php echo escape($profile->user_username); ?></h4>
-    <h5>Joined on <?php echo date('l j F Y \a\t H:i', strtotime(escape($profile->user_joined))); ?></h5>
+    <h5>Joined on <?= Date::format($profile->user_joined) ?></h5>
     <h6><?php echo(count($follows_data) == 1) ? count($follows_data) . ' Follower' : count($follows_data) . ' Followers'; ?> &bull; <?php echo(count($users_uploads) == 1) ? count($users_uploads) . ' Upload' : count($users_uploads) . ' Uploads'; ?></h6>
     
     <?php if($user->loggedIn()): ?>
@@ -28,18 +28,16 @@
   <?php else: ?>
     <?php foreach($users_uploads as $upload): ?>
       <div class="upload-box">
-        <?php $ext = explode('.', strtolower($upload->upload_file)); ?>
-
-        <?php if(count(array_intersect($ext, $image_extensions)) > 0): ?>
-          <img src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload->upload_file); ?>" alt="<?php echo escape($upload->upload_file); ?>">
-        <?php elseif(in_array('mp4', $ext)): ?>
+        <?php if(is_video($upload->upload_file)): ?>
           <video>
             <source src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload->upload_file); ?>" type="video/mp4">
           </video>
+        <?php else: ?>
+          <img src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload->upload_file); ?>" alt="<?php echo escape($upload->upload_file); ?>">
         <?php endif; ?>
 
         <h3><a href="view?id=<?php echo escape($upload->upload_id); ?>"><?php echo escape($upload->upload_title); ?></a></h3>
-        <h5><?php echo timeAgo(escape($upload->upload_date)); ?> &bull; <?php echo($upload->upload_views == 1) ? escape($upload->upload_views) . ' View' : escape($upload->upload_views) . ' Views'; ?></h5>
+        <h5><?= Date::timeAgo(escape($upload->upload_date)); ?> &bull; <?php echo($upload->upload_views == 1) ? escape($upload->upload_views) . ' View' : escape($upload->upload_views) . ' Views'; ?></h5>
       
         <?php if($user->loggedIn()): ?>
           <?php if($profile->user_username === $user->data()->user_username): ?>

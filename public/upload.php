@@ -41,28 +41,28 @@ if(Input::exists($_POST, 'upload')) {
       
         if(!in_array($extension, $allowed_upload_extensions)) {
           $validation->addError("This file type is not supported");
-        }
-
-        $unique_filename = Hash::createUniqueFilename($user->data()->user_username, $file_name);
-
-        $new_path = $upload_dir . $unique_filename . '.' . $extension;
-        $new_filename = $unique_filename . '.' . $extension;
-
-        if(!move_uploaded_file($_FILES['upload_file']['tmp_name'], $new_path)) {
-          $validation->addError("Unable to make upload");
-        }
-
-        $data = [
-            'upload_file' => $new_filename,
-            'upload_title' => escape(Input::get('upload_title')),
-            'upload_description' => escape(Input::get('upload_description')),
-            'upload_by' => $user->data()->user_id
-        ];
-
-        if($upload->newUpload($data)) {
-          Redirect::to(BASE_URL);
         } else {
-          $validation->addError("Unable to make upload");
+          $unique_filename = Hash::createUniqueFilename();
+
+          $new_path = $upload_dir . $unique_filename . '.' . $extension;
+          $new_filename = $unique_filename . '.' . $extension;
+
+          if(!move_uploaded_file($_FILES['upload_file']['tmp_name'], $new_path)) {
+            $validation->addError("Unable to make upload");
+          } else {
+            $data = [
+              'upload_file' => $new_filename,
+              'upload_title' => escape(Input::get('upload_title')),
+              'upload_description' => escape(Input::get('upload_description')),
+              'upload_by' => $user->data()->user_id
+            ];
+
+            if($upload->newUpload($data)) {
+              Redirect::to(BASE_URL);
+            } else {
+              $validation->addError("Unable to make upload");
+            }
+          }
         }
       }
     }

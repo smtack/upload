@@ -1,9 +1,5 @@
 <?php
 class Hash {
-  public static function make($string) {
-    return hash('sha256', $string);
-  }
-
   public static function random($length) {
     return bin2hex(random_bytes($length));
   }
@@ -17,11 +13,11 @@ class Hash {
   }
 
   public static function generateToken($name) {
-    return Session::set($name, self::make(self::random(256)));
+    return Session::set($name, self::random(64));
   }
 
   public static function checkToken($token, $name) {
-    if(Session::exists($name) && $token === Session::get($name)) {
+    if(Session::exists($name) && hash_equals(Session::get($name), $token)) {
       Session::unset($name);
 
       return true;
@@ -30,13 +26,9 @@ class Hash {
     return false;
   }
 
-  public static function createUniqueFilename($user, $filename) {
-    $hash_username = self::make($user);
+  public static function createUniqueFilename() {
+    $filename = 'upload_' . time() . self::random(16);
 
-    $hash_filename = self::make($filename);
-
-    $unique_filename = $hash_username . $hash_filename . uniqid();
-
-    return $unique_filename;
+    return $filename;
   }
 }

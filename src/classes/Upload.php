@@ -86,6 +86,72 @@ class Upload {
 
     return false;
   }
+
+  public function rate($data) {
+    if($rating = $this->getUsersRating($data['rating_user'], $data['rating_upload'])) {
+      if($this->db->update('uploads_ratings', 'rating_id', $rating->rating_id, $data)) {
+        return true;
+      }
+    } else {
+      if($this->db->insert('uploads_ratings', $data)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public function getUploadRating($upload) {
+    $sql = "SELECT
+              uploads.upload_id, AVG(uploads_ratings.rating_number)
+            AS
+              rating
+            FROM
+              uploads
+            LEFT JOIN
+              uploads_ratings
+            ON
+              uploads.upload_id = uploads_ratings.rating_upload 
+            WHERE
+              uploads.upload_id = ?";
+
+    $stmt = $this->db->pdo->prepare($sql);
+
+    $stmt->bindParam(1, $upload);
+
+    if($stmt->execute()) {
+      return $stmt->fetchObject();
+    }
+
+    return false;
+  }
+
+  public function getUsersRating($user, $upload) {
+    $sql = "SELECT
+              rating_number,
+              rating_id
+            FROM
+              uploads_ratings
+            WHERE
+              rating_user = ?
+            AND
+              rating_upload = ?";
+
+    $stmt = $this->db->pdo->prepare($sql);
+
+    $stmt->bindParam(1, $user, PDO::PARAM_INT);
+    $stmt->bindParam(2, $upload, PDO::PARAM_INT);
+
+    try {
+      $stmt->execute();
+
+      $row = $stmt->fetch();
+
+      return $row ? $row : false;
+    } catch(PDOException $e) {
+      return false; 
+    }
+  }
   
   public function editUpload($id, $fields = array()) {
     if($this->db->update('uploads', 'upload_id', $id, $fields)) {

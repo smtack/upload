@@ -70,21 +70,21 @@ if(Input::exists($_POST, 'upload_profile_picture')) {
 
         if(!in_array($extension, $image_extensions)) {
           $picture_validation->addError("This file type is not supported");
-        }
-
-        $unique_filename = Hash::createUniqueFilename($user->data()->user_username, $file_name);
-
-        $new_path = $target_dir . $unique_filename . '.' . $extension;
-        $new_filename = $unique_filename . '.' . $extension;
-
-        if(!move_uploaded_file($_FILES['user_profile_picture']['tmp_name'], $new_path)) {
-          $picture_validation->addError("Unable to upload profile picture");
-        }
-
-        if($user->updateProfile(array('user_profile_picture' => $new_filename))) {
-          Redirect::to(BASE_URL);
         } else {
-          $picture_validation->addError("Unable to upload profile picture");
+          $unique_filename = Hash::createUniqueFilename();
+
+          $new_path = $target_dir . $unique_filename . '.' . $extension;
+          $new_filename = $unique_filename . '.' . $extension;
+
+          if(!move_uploaded_file($_FILES['user_profile_picture']['tmp_name'], $new_path)) {
+            $picture_validation->addError("Unable to upload profile picture");
+          } else {
+            if($user->updateProfile(array('user_profile_picture' => $new_filename))) {
+              Redirect::to(BASE_URL);
+            } else {
+              $picture_validation->addError("Unable to upload profile picture");
+            }
+          }
         }
       }
     }

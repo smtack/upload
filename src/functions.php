@@ -31,35 +31,14 @@ function findValue($array, $key, $value) {
   return false;
 }
 
-// Print time ago string
+// Check if file is image or video
 
-function timeAgo($timestamp, $full = false) {
-  $now = new DateTime;
-  $ago = new DateTime($timestamp);
-  $diff = $now->diff($ago);
+function is_video($file) {
+  $extension = explode('.', strtolower($file));
 
-  $diff->w = floor($diff->d / 7);
-  $diff->d -= $diff->w * 7;
-
-  $string = array(
-    'y' => 'year',
-    'm' => 'month',
-    'w' => 'week',
-    'd' => 'day',
-    'h' => 'hour',
-    'm' => 'minute',
-    's' => 'second'
-  );
-
-  foreach($string as $key => &$value) {
-    if($diff->$key) {
-      $value = $diff->$key . ' ' . $value . ($diff->$key > 1 ? 's' : '');
-    } else {
-      unset($string[$key]);
-    }
+  if(count(array_intersect($extension, ['mp4'])) > 0) {
+    return true;
+  } else {
+    return false;
   }
-
-  if(!$full) $string = array_slice($string, 0, 1);
-
-  return $string ? implode(', ', $string) . ' ago' : 'just now';
 }

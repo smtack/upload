@@ -14,6 +14,8 @@ ini_set('log_errors', 'on');
 error_reporting(E_ALL);
 // set_error_handler('errorHandler');
 
+date_default_timezone_set('Europe/London');
+
 session_start();
 
 $GLOBALS['config'] = array(

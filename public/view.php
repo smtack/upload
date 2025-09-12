@@ -19,6 +19,15 @@ $page_title = "Upload - " . $upload_data->upload_title;
 
 $favorite_data = $upload->getFavoritesData($id);
 
+$rating_data = $upload->getUploadRating($id);
+$star_rating = number_format((float) $rating_data->rating, 1, '.', '');
+
+$users_rating = false;
+
+if($user->loggedIn()) {
+  $users_rating = $upload->getUsersRating($user->data()->user_id, $upload_data->upload_id);
+}
+
 if(Input::exists($_POST, 'submit_comment')) {
   if(Hash::checkToken(Input::get('token'), 'token')) {
     $validate = new Validate();

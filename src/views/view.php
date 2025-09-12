@@ -1,38 +1,62 @@
 <?php require_once VIEW_ROOT . '/includes/header.php'; ?>
 
 <div class="upload">
-  <?php $ext = explode('.', strtolower($upload_data->upload_file)); ?>
-        
-  <?php if(count(array_intersect($ext, $image_extensions)) > 0): ?>
-    <img src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload_data->upload_file); ?>" alt="<?php echo escape($upload_data->upload_file); ?>">
-  <?php elseif(in_array('mp4', $ext)): ?>
+  <?php if(is_video($upload_data->upload_file)): ?>
     <video controls>
       <source src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload_data->upload_file); ?>" type="video/mp4">
     </video>
+  <?php else: ?>
+    <img src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload_data->upload_file); ?>" alt="<?php echo escape($upload_data->upload_file); ?>">
   <?php endif; ?>
 
   <div class="upload-info">
-    <h3><?php echo escape($upload_data->upload_title); ?></h3>
-    <h5>Uploaded by <a href="<?php echo BASE_URL; ?>/profile?u=<?php echo escape($upload_data->user_username); ?>"><?php echo escape($upload_data->user_username); ?></a> on <?php echo date('l j F Y \a\t H:i', strtotime(escape($upload_data->upload_date))); ?></h5>
-    <p><?php echo escape($upload_data->upload_description); ?></p>
+    <h3 class="upload-title"><?php echo escape($upload_data->upload_title); ?></h3>
+    <div class="upload-user-info">
+      <img class="upload-profile-picture" src="<?php echo BASE_URL; ?>/uploads/profile-pictures/<?php echo escape($upload_data->user_profile_picture); ?>" alt="Profile Picture">
+      <div class="upload-user-header">
+        <span class="upload-user"><a href="<?php echo BASE_URL; ?>/profile?u=<?php echo escape($upload_data->user_username); ?>"><?php echo escape($upload_data->user_name); ?></a></span>
+        <span class="upload-date"><?= Date::format($upload_data->upload_date) ?></span>
+      </div>
+    </div>
+    <p class="upload-description"><?php echo escape($upload_data->upload_description); ?></p>
+  </div>
 
-    <span>
-      <img src="<?php echo BASE_URL; ?>/public/img/views.svg"> <?php echo(escape($upload_data->upload_views)); ?>
+  <div class="rating">
+    <form name="starForm" id="starForm" class="star-rating" action="<?= BASE_URL ?>/rate" method="GET">
+      <input type="hidden" name="id" value="<?= escape($upload_data->upload_id) ?>">
+      <?php foreach(range(5, 1) as $rating): ?>
+        <?php $is_checked = ($users_rating !== false && $users_rating->rating_number === $rating); ?>
+        <input
+          onchange="this.form.submit()" 
+          class="radio-input"
+          type="radio" 
+          id="star-<?=$rating?>"
+          name="star-input"
+          value="<?=$rating?>"
+          <?= $is_checked ? 'checked' : '' ?>
+        >
+        <label class="radio-label" for="star-<?=$rating?>" title="<?=$rating?> stars"><?=$rating?> stars</label>
+      <?php endforeach; ?>
+    </form>
+  </div>
 
-      <?php if($user->loggedIn()): ?>
-        <?php if(!findValue($favorite_data, 'favorite_user', $user->data()->user_id)): ?>
-          <a href="<?php echo BASE_URL; ?>/favorite?id=<?php echo escape($upload_data->upload_id); ?>"><img src="<?php echo BASE_URL; ?>/public/img/favorite.svg"></a>
-        <?php else: ?>
-          <a href="<?php echo BASE_URL; ?>/unfavorite?id=<?php echo escape($upload_data->upload_id); ?>"><img src="<?php echo BASE_URL; ?>/public/img/unfavorite.svg"></a>
-        <?php endif; ?>
-        
-        <?php echo count($favorite_data); ?>
+  <div class="views">
+    <img src="<?= BASE_URL ?>/public/img/star.svg" alt="Star rating" /> <?= $star_rating ?>
+    <img src="<?php echo BASE_URL; ?>/public/img/views.svg"> <?php echo(escape($upload_data->upload_views)); ?>
 
-        <img src="<?php echo BASE_URL; ?>/public/img/download.svg"> <a href="<?php echo BASE_URL; ?>/download?f=<?php echo urlencode($upload_data->upload_file); ?>">Download</a>
+    <?php if($user->loggedIn()): ?>
+      <?php if(!findValue($favorite_data, 'favorite_user', $user->data()->user_id)): ?>
+        <a href="<?php echo BASE_URL; ?>/favorite?id=<?php echo escape($upload_data->upload_id); ?>"><img src="<?php echo BASE_URL; ?>/public/img/favorite.svg"></a>
       <?php else: ?>
-        <img src="<?php echo BASE_URL; ?>/public/img/unfavorite.svg"> <?php echo count($favorite_data); ?>
+        <a href="<?php echo BASE_URL; ?>/unfavorite?id=<?php echo escape($upload_data->upload_id); ?>"><img src="<?php echo BASE_URL; ?>/public/img/unfavorite.svg"></a>
       <?php endif; ?>
-    </span>
+      
+      <?php echo count($favorite_data); ?>
+
+      <img src="<?php echo BASE_URL; ?>/public/img/download.svg"> <a href="<?php echo BASE_URL; ?>/download?f=<?php echo urlencode($upload_data->upload_file); ?>">Download</a>
+    <?php else: ?>
+      <img src="<?php echo BASE_URL; ?>/public/img/unfavorite.svg"> <?php echo count($favorite_data); ?>
+    <?php endif; ?>
   </div>
 </div>
 
@@ -58,28 +82,29 @@
     </div>
   <?php endif; ?>
 
-  <div class="comments-list">
-    <?php if(!$comments): ?>
-      <h3 class="site-notice">No Comments</h3>
-    <?php else: ?>
-      <h3>Comments</h3>
-
-      <?php foreach($comments as $comment): ?>
-        <div class="comment">
-          <p><?php echo escape($comment->comment_text); ?></p>
-          <h5>
-            By <a href="<?php echo BASE_URL; ?>/profile?u=<?php echo escape($comment->user_username); ?>"><?php echo escape($comment->user_name); ?></a> on <?php echo date('l j F Y \a\t H:i', strtotime(escape($comment->comment_date))); ?>
-            
+  <?php if(!$comments): ?>
+    <h3 class="site-notice">No Comments</h3>
+  <?php else: ?>
+    <?php foreach($comments as $comment): ?>
+      <div class="comment">
+        <img class="comment-profile-picture" src="<?php echo BASE_URL; ?>/uploads/profile-pictures/<?php echo escape($comment->user_profile_picture); ?>" alt="Profile Picture">
+        <div class="comment-content">
+          <div class="comment-header">
+            <span class="comment-user"><a href="<?php echo BASE_URL; ?>/profile?u=<?php echo escape($comment->user_username); ?>"><?php echo escape($comment->user_name); ?></a></span>
+            <span class="comment-date"><?= Date::format($comment->comment_date) ?></span>
+          </div>
+          <p class="comment-text"><?php echo escape($comment->comment_text); ?></p>
+          <span class="comment-options">
             <?php if($user->loggedIn()): ?>
               <?php if($user->data()->user_id === $comment->comment_by): ?>
-                &bull; <a href="<?php echo BASE_URL; ?>/edit-comment?id=<?php echo escape($comment->comment_id); ?>">Edit</a>
+                <a href="<?php echo BASE_URL; ?>/edit-comment?id=<?php echo escape($comment->comment_id); ?>">Edit</a>
               <?php endif; ?>
             <?php endif; ?>
-          </h5>
+          </span>
         </div>
-      <?php endforeach; ?>
-    <?php endif; ?>
-  </div>
+      </div>
+    <?php endforeach; ?>
+  <?php endif; ?>
 </div>
 
 <?php require_once VIEW_ROOT . '/includes/footer.php'; ?>

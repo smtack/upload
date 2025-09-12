@@ -38,6 +38,14 @@ CREATE TABLE `uploads` (
   PRIMARY KEY (upload_id)
 ) ENGINE=INNODB;
 
+CREATE TABLE `uploads_ratings` (
+  `rating_id` INT(11) NOT NULL AUTO_INCREMENT,
+  `rating_user` INT(11) NOT NULL,
+  `rating_upload` INT(11) NOT NULL,
+  `rating_number` INT(1) NOT NULL,
+  PRIMARY KEY (rating_id)
+) ENGINE=INNODB;
+
 CREATE TABLE `favorites` (
   `favorite_id` INT(11) NOT NULL AUTO_INCREMENT,
   `favorite_user` INT(11) NOT NULL,

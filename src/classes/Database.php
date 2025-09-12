@@ -213,9 +213,10 @@ class Database {
   }
 
   public function exists($table, $arr) {
+    /** @var object $res */
     $res = $this->select($table, array(), $arr);
 
-    return ($res->count()) ? true : false;
+    return (bool) $res->count();
   }
 
   public function results() {

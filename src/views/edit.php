@@ -12,14 +12,12 @@
       <?php endforeach; ?>
     <?php endif; ?>
     <div class="form-group">
-      <?php $ext = explode('.', strtolower($upload_data->upload_file)); ?>
-
-      <?php if(count(array_intersect($ext, $image_extensions)) > 0): ?>
-        <img src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload_data->upload_file); ?>" alt="<?php echo escape($upload_data->upload_file); ?>">
-      <?php elseif(in_array('mp4', $ext)): ?>
+      <?php if(is_video($upload_data->upload_file)): ?>
         <video>
           <source src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload_data->upload_file); ?>" type="video/mp4">
         </video>
+      <?php else: ?>
+        <img src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload_data->upload_file); ?>" alt="<?php echo escape($upload_data->upload_file); ?>">
       <?php endif; ?>
     </div>
     <div class="form-group">
