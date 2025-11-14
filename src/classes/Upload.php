@@ -14,11 +14,51 @@ class Upload {
     return false;
   }
 
-  public function getUploads() {
-    $rows = $this->db->select('uploads', array('users', 'users.user_id', 'uploads.upload_by'), array(), 'upload_id');
+  public function getUploadsByDate() {
+    $rows = $this->db->select('uploads', array('users', 'users.user_id', 'uploads.upload_by'), array(), 'upload_date');
 
     if($rows->count()) {
       return $rows->results();
+    }
+
+    return false;
+  }
+
+  public function getUploadsByViews() {
+    $rows = $this->db->select('uploads', array('users', 'users.user_id', 'uploads.upload_by'), array(), 'upload_views');
+
+    if($rows->count()) {
+      return $rows->results();
+    }
+
+    return false;
+  }
+
+  public function getUploadsByStarRating() {
+    $sql = "SELECT
+              u.*,
+              user.*,
+              COALESCE(AVG(r.rating_number), 0) AS avg_rating,
+              COUNT(r.rating_number) AS rating_count
+            FROM
+              uploads u
+            LEFT JOIN
+              uploads_ratings r
+            ON
+              u.upload_id = r.rating_upload
+            LEFT JOIN
+              users user
+            ON
+              u.upload_by = user.user_id
+            GROUP BY
+              u.upload_id, user.user_id
+            ORDER BY
+              avg_rating DESC, rating_count DESC";
+
+    $stmt = $this->db->pdo->prepare($sql);
+
+    if($stmt->execute()) {
+      return $stmt->fetchAll();
     }
 
     return false;

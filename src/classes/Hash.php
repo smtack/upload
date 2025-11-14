@@ -25,10 +25,4 @@ class Hash {
 
     return false;
   }
-
-  public static function createUniqueFilename() {
-    $filename = 'upload_' . time() . self::random(16);
-
-    return $filename;
-  }
 }

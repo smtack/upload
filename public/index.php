@@ -7,7 +7,7 @@ $upload = new Upload();
 if($user->loggedIn()) {
   $uploads = $upload->getHomepageUploads($user->data()->user_id);
 } else {
-  $uploads = $upload->getUploads();
+  $uploads = $upload->getUploadsByDate();
 }
 
 require VIEW_ROOT . '/index.php';

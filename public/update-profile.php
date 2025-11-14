@@ -58,32 +58,28 @@ if(Input::exists($_POST, 'upload_profile_picture')) {
     $picture_validation = $validate->check($_POST, array());
 
     if($picture_validation->passed()) {
-      if(empty($_FILES['user_profile_picture']['name'])) {
+      $file = File::get('user_profile_picture');
+
+      $extension = File::getFileExtension($file);
+
+      $unique_filename = File::createUniqueFilename();
+
+      $new_filename = $unique_filename . "." . $extension;
+
+      $target_folder = "profile-pictures";
+
+      if(!$file) {
         $picture_validation->addError("Select a file to upload");
+      } else if(!in_array($extension, $image_extensions)) {
+        $picture_validation->addError("This file type is not supported");
       } else {
-        $target_dir = "../uploads/profile-pictures/";
-        $file_name = basename($_FILES['user_profile_picture']['name']);
-
-        $path = $target_dir . $file_name;
-
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
-
-        if(!in_array($extension, $image_extensions)) {
-          $picture_validation->addError("This file type is not supported");
+        if(!File::moveFile('user_profile_picture', $target_folder, $new_filename)) {
+          $picture_validation->addError("Unable to upload profile picture");
         } else {
-          $unique_filename = Hash::createUniqueFilename();
-
-          $new_path = $target_dir . $unique_filename . '.' . $extension;
-          $new_filename = $unique_filename . '.' . $extension;
-
-          if(!move_uploaded_file($_FILES['user_profile_picture']['tmp_name'], $new_path)) {
+          if(!$user->updateProfile(array('user_profile_picture' => $new_filename))) {
             $picture_validation->addError("Unable to upload profile picture");
           } else {
-            if($user->updateProfile(array('user_profile_picture' => $new_filename))) {
-              Redirect::to(BASE_URL);
-            } else {
-              $picture_validation->addError("Unable to upload profile picture");
-            }
+            Redirect::to(BASE_URL);
           }
         }
       }

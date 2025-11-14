@@ -27,24 +27,7 @@
     <h3 class="site-notice"><?php echo $profile->user_name; ?> hasn't uploaded anything yet.</h3>
   <?php else: ?>
     <?php foreach($users_uploads as $upload): ?>
-      <div class="upload-box">
-        <?php if(is_video($upload->upload_file)): ?>
-          <video>
-            <source src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload->upload_file); ?>" type="video/mp4">
-          </video>
-        <?php else: ?>
-          <img src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload->upload_file); ?>" alt="<?php echo escape($upload->upload_file); ?>">
-        <?php endif; ?>
-
-        <h3><a href="view?id=<?php echo escape($upload->upload_id); ?>"><?php echo escape($upload->upload_title); ?></a></h3>
-        <h5><?= Date::timeAgo(escape($upload->upload_date)); ?> &bull; <?php echo($upload->upload_views == 1) ? escape($upload->upload_views) . ' View' : escape($upload->upload_views) . ' Views'; ?></h5>
-      
-        <?php if($user->loggedIn()): ?>
-          <?php if($profile->user_username === $user->data()->user_username): ?>
-            <h5><a href="edit?id=<?php echo escape($upload->upload_id); ?>">Edit</a></h5>
-          <?php endif; ?>
-        <?php endif; ?>
-      </div>
+      <?php include VIEW_ROOT . '/templates/upload-box.php' ?>
     <?php endforeach; ?>
   <?php endif; ?>
 </div>

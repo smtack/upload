@@ -3,5 +3,3 @@
     RewriteRule ^(.*)$ public/$1 [L]
     RedirectMatch 403 ^/(src)(/|$)
 </IfModule>
-
-ErrorDocument 404 /public/errors/404.php

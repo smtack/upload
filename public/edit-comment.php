@@ -1,7 +1,7 @@
 <?php
 require_once '../src/init.php';
 
-$user = new User;
+$user = new User();
 $upload = new Upload();
 
 if(!$user->loggedIn()) {

@@ -44,7 +44,7 @@ if(Input::exists($_POST, 'edit')) {
         'upload_title' => escape(Input::get('upload_title')),
         'upload_description' => escape(Input::get('upload_description'))
       ))) {
-        Redirect::to(BASE_URL);
+        Redirect::to(BASE_URL . '/your-uploads');
       } else {
         $validation->addError("Unable to edit upload");
       }
@@ -54,16 +54,12 @@ if(Input::exists($_POST, 'edit')) {
 
 if(Input::exists($_POST, 'delete_upload')) {
   if(Hash::checkToken(Input::get('delete-token'), 'delete-token')) {
-    $upload_dir = "../uploads/uploads/";
-    $upload_name = $upload_data->upload_file;
-    $file_to_delete = $upload_dir . $upload_name;
+    $filename = $upload_data->upload_file;
   
     if($upload->deleteUpload($id)) {
-      if(file_exists($file_to_delete)) {
-        unlink($file_to_delete);
-      }
+      File::removeFile("../uploads/uploads/$filename");
       
-      Redirect::to(BASE_URL);
+      Redirect::to(BASE_URL . '/your-uploads');
     }
   }
 }

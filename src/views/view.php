@@ -1,13 +1,17 @@
 <?php require_once VIEW_ROOT . '/includes/header.php'; ?>
 
 <div class="upload">
-  <?php if(is_video($upload_data->upload_file)): ?>
-    <video controls>
-      <source src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload_data->upload_file); ?>" type="video/mp4">
-    </video>
-  <?php else: ?>
-    <img src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload_data->upload_file); ?>" alt="<?php echo escape($upload_data->upload_file); ?>">
-  <?php endif; ?>
+  <div class="upload-content">
+    <?php if(is_video($upload_data->upload_file)): ?>
+      <video
+        controls
+        autoplay
+        src="<?php echo BASE_URL ?>/uploads/uploads/<?php echo escape($upload_data->upload_file) ?>"
+        id="video"></video>
+    <?php else: ?>
+      <img src="<?php echo BASE_URL ?>/uploads/uploads/<?php echo escape($upload_data->upload_file) ?>" alt="<?php echo escape($upload_data->upload_file) ?>">
+    <?php endif; ?>
+  </div>
 
   <div class="upload-info">
     <h3 class="upload-title"><?php echo escape($upload_data->upload_title); ?></h3>

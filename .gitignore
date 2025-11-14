@@ -1,0 +1,7 @@
+uploads/profile-pictures/*
+!uploads/profile-pictures/default.png
+!uploads/profile-pictures/.htaccess
+
+uploads/uploads/*
+!uploads/uploads/README.md
+!uploads/uploads/.htaccess

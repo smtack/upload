@@ -54,7 +54,6 @@ $image_extensions = array(
   'JPEG',
   'png',
   'PNG',
-  'gif',
 );
 
 $allowed_upload_extensions = array(
