@@ -3,11 +3,7 @@
 <div class="upload">
   <div class="upload-content">
     <?php if(is_video($upload_data->upload_file)): ?>
-      <video
-        controls
-        autoplay
-        src="<?php echo BASE_URL ?>/uploads/uploads/<?php echo escape($upload_data->upload_file) ?>"
-        id="video"></video>
+      <?php include VIEW_ROOT . '/templates/video-player.php' ?>
     <?php else: ?>
       <img src="<?php echo BASE_URL ?>/uploads/uploads/<?php echo escape($upload_data->upload_file) ?>" alt="<?php echo escape($upload_data->upload_file) ?>">
     <?php endif; ?>
