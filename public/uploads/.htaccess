@@ -7,10 +7,6 @@
 
 # Disable script execution in the uploads directory
 
-<IfModule mod_headers.c>
-    Header set Content-Type text/plain
-</IfModule>
-
 <FilesMatch "\.(php|phtml|php3|php4|php5|php6|php7|phar|pl|py|cgi)$">
     Require all denied
 </FilesMatch>

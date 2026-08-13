@@ -11,12 +11,12 @@ class Router
      * @param array $routes
      * @return mixed
      */
-    public static function route(string $uri, array $routes)
+    public static function route(string $uri, array $routes): void
     {
-        foreach ($routes as $route => $controller) {
-            if ($route === $uri) {
-                return require base_path('src/controllers/' . $controller . '.php');
-            }
+        if (isset($routes[$uri])) {
+            require base_path('src/controllers/' . $routes[$uri] . '.php');
+
+            return;
         }
 
         self::abort(404);

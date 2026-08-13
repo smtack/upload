@@ -17,8 +17,8 @@ class Validate
     {
         foreach ($items as $item => $rules) {
             foreach ($rules as $rule => $rule_value) {
-                $value = trim($source[$item]);
-                $item = escape($item);
+                $field = $item;
+                $value = trim($source[$field]);
 
                 if ($rule == 'name') {
                     $name = $rule_value;
@@ -44,7 +44,7 @@ class Validate
                             }
                         break;
                         case 'unique':
-                            if ($this->db->exists($rule_value, [$item => $value])) {
+                            if ($this->db->exists($rule_value, [$field => $value])) {
                                 $this->addError("{$name} already exists.");
                             }
                         break;

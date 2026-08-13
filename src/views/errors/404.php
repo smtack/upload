@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="apple-touch-icon" sizes="180x180" href="<?= asset('img/favicon/apple-touch-icon.png') ?>">
-  <link rel="icon" type="image/png" sizes="32x32" href="<?= asset('img/favicon/favicon-32x32.png') ?>">
-  <link rel="icon" type="image/png" sizes="16x16" href="<?= asset('img/favicon/favicon-16x16.png') ?>">
-  <link rel="manifest" href="<?= asset('img/favicon/site.webmanifest') ?>">
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= asset('img/favicon/apple-touch-icon.png') ?>">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= asset('img/favicon/favicon-32x32.png') ?>">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= asset('img/favicon/favicon-16x16.png') ?>">
+    <link rel="manifest" href="<?= asset('img/favicon/site.webmanifest') ?>">
 
-  <link href="<?= asset('css/style.css') ?>" rel="stylesheet">
+    <link href="<?= asset('css/style.css') ?>" rel="stylesheet">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
-  <title>404 Not Found</title>
+    <title>404 Not Found</title>
 </head>
 <body>
     <div class="error-page">

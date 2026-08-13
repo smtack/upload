@@ -8,7 +8,7 @@ const DB_PASS = '';
 const DB_CHAR = '';
 
 // Base site URL - No trailing slash
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = '';
 
 // Path to view files
 const VIEW_ROOT = __DIR__ . '/../src/views';

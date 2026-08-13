@@ -257,11 +257,11 @@ class Upload
             ON
                 uploads.upload_by = users.user_id
             WHERE
-                favorite_user = $user
+                favorite_user = ?
             ORDER BY
                 upload_date
             DESC
-        ");
+        ", [$user]);
 
         if ($rows->count()) {
             return $rows->results();

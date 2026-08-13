@@ -64,7 +64,7 @@ $GLOBALS['config'] = array(
 
 if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))) {
     $hash = Cookie::get(Config::get('remember/cookie_name'));
-    $hash_check = Database::getInstance()->select('users_session', array(), array('session_hash', '=', $hash));
+    $hash_check = Database::getInstance()->select('users_session', ['session_hash' => $hash]);
 
     if($hash_check->count()) {
         $user = new User($hash_check->first()->user_id);

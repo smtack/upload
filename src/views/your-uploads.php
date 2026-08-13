@@ -24,7 +24,6 @@
                         on <?= Core\Date::format($upload->upload_date) ?>
                     </h5>
                     <h5><?php echo($upload->upload_views == 1) ? escape($upload->upload_views) . ' View' : escape($upload->upload_views) . ' Views'; ?></h5>
-
                     <h4><a href="edit?id=<?php echo escape($upload->upload_id); ?>">Edit</a></h4>
                 </div>
             </div>
