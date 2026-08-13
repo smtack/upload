@@ -1,0 +1,11 @@
+{
+    "name": "sean/upload",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Core\\": "src/Core/",
+            "Models\\": "src/Models/"
+        }
+    },
+    "require": {}
+}

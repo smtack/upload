@@ -14,7 +14,7 @@
         <div id="user-info">
           <h3><a href="<?php echo BASE_URL; ?>/profile?u=<?php echo escape($follow->user_username); ?>"><?php echo escape($follow->user_name); ?></a></h3>
           <h4><?php echo escape($follow->user_username); ?></h4>
-          <h5>Joined on <?= Date::format($follow->user_joined) ?></h5>
+          <h5>Joined on <?= Core\Date::format($follow->user_joined) ?></h5>
           <a href="<?php echo BASE_URL; ?>/unfollow?u=<?php echo escape($follow->user_id); ?>"><button>Unfollow</button></a>
         </div>
       </div>

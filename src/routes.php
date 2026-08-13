@@ -1,0 +1,27 @@
+<?php
+
+return [
+    '/' => 'index',
+    '/signup' => 'signup',
+    '/login' => 'login',
+    '/logout' => 'logout',
+    '/latest' => 'latest',
+    '/popular' => 'popular',
+    '/top' => 'top',
+    '/upload' => 'upload',
+    '/your-uploads' => 'your-uploads',
+    '/favorites' => 'favorites',
+    '/follows' => 'follows',
+    '/search' => 'search',
+    '/profile' => 'profile',
+    '/update-profile' => 'update-profile',
+    '/follow' => 'follow',
+    '/unfollow' => 'unfollow',
+    '/view' => 'view',
+    '/rate' => 'rate',
+    '/favorite' => 'favorite',
+    '/unfavorite' => 'unfavorite',
+    '/download' => 'download',
+    '/edit' => 'edit',
+    '/edit-comment' => 'edit-comment',
+];

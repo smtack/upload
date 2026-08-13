@@ -3,7 +3,7 @@
 <div class="form">
   <h2>New Upload</h2>
 
-  <form enctype="multipart/form-data" action="<?php $self; ?>" method="POST">
+  <form enctype="multipart/form-data" action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
     <?php if(isset($validation)): ?>
       <?php foreach($validation->errors() as $message): ?>
         <div class="form-group">
@@ -21,7 +21,7 @@
       <textarea name="upload_description" placeholder="Description"></textarea>
     </div>
     <div class="form-group">
-      <input type="hidden" name="token" value="<?php echo Hash::generateToken('token'); ?>">
+      <input type="hidden" name="token" value="<?php echo Core\Hash::generateToken('token'); ?>">
       <input type="submit" name="upload" value="Upload">
     </div>
   </form>

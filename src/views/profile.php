@@ -7,9 +7,9 @@
   <div id="user-info">
     <h2><?php echo escape($profile->user_name); ?></h2>
     <h4><?php echo escape($profile->user_username); ?></h4>
-    <h5>Joined on <?= Date::format($profile->user_joined) ?></h5>
-    <h6><?php echo(count($follows_data) == 1) ? count($follows_data) . ' Follower' : count($follows_data) . ' Followers'; ?> &bull; <?php echo(count($users_uploads) == 1) ? count($users_uploads) . ' Upload' : count($users_uploads) . ' Uploads'; ?></h6>
-    
+    <h5>Joined on <?= Core\Date::format($profile->user_joined) ?></h5>
+    <h6><?php echo(count($follows_data) === 1) ? count($follows_data) . ' Follower' : count($follows_data) . ' Followers'; ?> &bull; <?php echo(count($users_uploads) == 1) ? count($users_uploads) . ' Upload' : count($users_uploads) . ' Uploads'; ?></h6>
+
     <?php if($user->loggedIn()): ?>
       <?php if($user->data()->user_username !== $profile->user_username): ?>
         <?php if(!findValue($follows_data, 'follow_user', $user->data()->user_id)): ?>

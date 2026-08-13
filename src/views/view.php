@@ -15,7 +15,7 @@
       <img class="upload-profile-picture" src="<?php echo BASE_URL; ?>/uploads/profile-pictures/<?php echo escape($upload_data->user_profile_picture); ?>" alt="Profile Picture">
       <div class="upload-user-header">
         <span class="upload-user"><a href="<?php echo BASE_URL; ?>/profile?u=<?php echo escape($upload_data->user_username); ?>"><?php echo escape($upload_data->user_name); ?></a></span>
-        <span class="upload-date"><?= Date::format($upload_data->upload_date) ?></span>
+        <span class="upload-date"><?= Core\Date::format($upload_data->upload_date) ?></span>
       </div>
     </div>
     <p class="upload-description"><?php echo escape($upload_data->upload_description); ?></p>
@@ -25,11 +25,11 @@
     <form name="starForm" id="starForm" class="star-rating" action="<?= BASE_URL ?>/rate" method="GET">
       <input type="hidden" name="id" value="<?= escape($upload_data->upload_id) ?>">
       <?php foreach(range(5, 1) as $rating): ?>
-        <?php $is_checked = ($users_rating !== false && $users_rating->rating_number === $rating); ?>
+        <?php $is_checked = (isset($users_rating) && $users_rating->rating_number === $rating); ?>
         <input
-          onchange="this.form.submit()" 
+          onchange="this.form.submit()"
           class="radio-input"
-          type="radio" 
+          type="radio"
           id="star-<?=$rating?>"
           name="star-input"
           value="<?=$rating?>"
@@ -41,21 +41,21 @@
   </div>
 
   <div class="views">
-    <img src="<?= BASE_URL ?>/public/img/star.svg" alt="Star rating" /> <?= $star_rating ?>
-    <img src="<?php echo BASE_URL; ?>/public/img/views.svg"> <?php echo(escape($upload_data->upload_views)); ?>
+    <img src="<?= asset('img/star.svg') ?>" alt="Star rating" /> <?= $star_rating ?>
+    <img src="<?= asset('img/views.svg') ?>"> <?php echo(escape($upload_data->upload_views)); ?>
 
     <?php if($user->loggedIn()): ?>
       <?php if(!findValue($favorite_data, 'favorite_user', $user->data()->user_id)): ?>
-        <a href="<?php echo BASE_URL; ?>/favorite?id=<?php echo escape($upload_data->upload_id); ?>"><img src="<?php echo BASE_URL; ?>/public/img/favorite.svg"></a>
+        <a href="<?php echo BASE_URL; ?>/favorite?id=<?php echo escape($upload_data->upload_id); ?>"><img src="<?= asset('img/favorite.svg') ?>"></a>
       <?php else: ?>
-        <a href="<?php echo BASE_URL; ?>/unfavorite?id=<?php echo escape($upload_data->upload_id); ?>"><img src="<?php echo BASE_URL; ?>/public/img/unfavorite.svg"></a>
+        <a href="<?php echo BASE_URL; ?>/unfavorite?id=<?php echo escape($upload_data->upload_id); ?>"><img src="<?= asset('img/unfavorite.svg') ?>"></a>
       <?php endif; ?>
-      
+
       <?php echo count($favorite_data); ?>
 
-      <img src="<?php echo BASE_URL; ?>/public/img/download.svg"> <a href="<?php echo BASE_URL; ?>/download?f=<?php echo urlencode($upload_data->upload_file); ?>">Download</a>
+      <img src="<?= asset('img/download.svg') ?>"> <a href="<?php echo BASE_URL; ?>/download?f=<?php echo urlencode($upload_data->upload_file); ?>">Download</a>
     <?php else: ?>
-      <img src="<?php echo BASE_URL; ?>/public/img/unfavorite.svg"> <?php echo count($favorite_data); ?>
+      <img src="<?= asset('img/unfavorite.svg') ?>"> <?php echo count($favorite_data); ?>
     <?php endif; ?>
   </div>
 </div>
@@ -63,7 +63,7 @@
 <div class="comments">
   <?php if($user->loggedIn()): ?>
     <div class="form">
-      <form action="<?php $self; ?>" method="POST">
+      <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
         <?php if(isset($validation)): ?>
           <?php foreach($validation->errors() as $message): ?>
             <div class="form-group">
@@ -75,7 +75,7 @@
           <textarea name="comment_text"></textarea>
         </div>
         <div class="form-group">
-          <input type="hidden" name="token" value="<?php echo Hash::generateToken('token'); ?>">
+          <input type="hidden" name="token" value="<?php echo Core\Hash::generateToken('token'); ?>">
           <input type="submit" name="submit_comment" value="Comment">
         </div>
       </form>
@@ -91,7 +91,7 @@
         <div class="comment-content">
           <div class="comment-header">
             <span class="comment-user"><a href="<?php echo BASE_URL; ?>/profile?u=<?php echo escape($comment->user_username); ?>"><?php echo escape($comment->user_name); ?></a></span>
-            <span class="comment-date"><?= Date::format($comment->comment_date) ?></span>
+            <span class="comment-date"><?= Core\Date::format($comment->comment_date) ?></span>
           </div>
           <p class="comment-text"><?php echo escape($comment->comment_text); ?></p>
           <span class="comment-options">

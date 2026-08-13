@@ -3,7 +3,7 @@
         id="video"
         controls
         preload="metadata">
-        <source 
+        <source
             src="<?php echo BASE_URL ?>/uploads/uploads/<?php echo escape($upload_data->upload_file) ?>"
             type="video/mp4">
         </source>
@@ -24,4 +24,4 @@
     </div>
 </figure>
 
-<script src="<?php echo BASE_URL ?>/public/js/video-player.js"></script>
+<script src="<?= asset('js/video-player.js') ?>"></script>

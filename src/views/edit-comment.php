@@ -3,7 +3,7 @@
 <div class="form">
   <h2>Edit Comment</h2>
 
-  <form action="<?php $self; ?>" method="POST">
+  <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
     <?php if(isset($validation)): ?>
       <?php foreach($validation->errors() as $message): ?>
         <div class="form-group">
@@ -15,7 +15,7 @@
       <textarea name="comment_text"><?php echo escape($comment->comment_text); ?></textarea>
     </div>
     <div class="form-group">
-      <input type="hidden" name="token" value="<?php echo Hash::generateToken('token'); ?>">
+      <input type="hidden" name="token" value="<?= Core\Hash::generateToken('token') ?>">
       <input type="submit" name="edit_comment" value="Edit Comment">
     </div>
   </form>
@@ -24,9 +24,9 @@
 <div class="form">
   <h2>Delete Comment</h2>
 
-  <form action="<?php $self; ?>" method="POST">
+  <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
     <div class="form-group">
-      <input type="hidden" name="delete-token" value="<?php echo Hash::generateToken('delete-token'); ?>">
+      <input type="hidden" name="delete-token" value="<?= Core\Hash::generateToken('delete-token') ?>">
       <input type="submit" name="delete_comment" value="Delete Comment">
     </div>
   </form>

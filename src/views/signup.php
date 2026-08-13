@@ -3,7 +3,7 @@
 <div class="form">
   <h2>Sign Up</h2>
 
-  <form action="<?php $self; ?>" method="POST">
+  <form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
     <?php if(isset($validation)): ?>
       <?php foreach($validation->errors() as $message): ?>
         <div class="form-group">
@@ -27,7 +27,7 @@
       <input type="password" name="confirm_password" placeholder="Confirm Password">
     </div>
     <div class="form-group">
-      <input type="hidden" name="token" value="<?php echo Hash::generateToken('token'); ?>">
+      <input type="hidden" name="token" value="<?= Core\Hash::generateToken('token') ?>">
       <input type="submit" name="signup" value="Sign Up">
     </div>
     <div class="form-group">

@@ -1,13 +1,8 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
+RewriteEngine On
 
-    Options -Indexes
-    Options -MultiViews
+Options -Indexes
+Options -MultiViews
 
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-
-    RewriteRule ^([a-zA-Z-]+)/?([a-zA-Z0-9-/]*)$ $1.php?page=$1&query=$2 [QSA,L]
-
-    ErrorDocument 404 /upload/public/errors/404.php
-</IfModule>
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]

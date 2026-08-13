@@ -1,5 +1,5 @@
 # Upload
 
-<img src="docs/Screenshot.png" alt="Screenshot">
+<img src="Screenshot.png" alt="Screenshot">
 
 Upload is a video and image sharing site.
