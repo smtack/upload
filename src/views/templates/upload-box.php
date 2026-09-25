@@ -18,7 +18,7 @@
     </h3>
 
     <h5>
-        Uploaded by <a href="<?php echo BASE_URL; ?>/profile?u=<?php echo escape($upload->user_username); ?>"><?php echo escape($upload->user_username); ?></a>
+        Uploaded by <a href="/profile?u=<?php echo escape($upload->user_username); ?>"><?php echo escape($upload->user_username); ?></a>
         &bull; <?= Core\Date::timeAgo(escape($upload->upload_date)) ?>
     </h5>
 

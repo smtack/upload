@@ -12,10 +12,10 @@
                     <img src="<?php echo BASE_URL; ?>/uploads/profile-pictures/<?php echo escape($follow->user_profile_picture); ?>" alt="<?php echo escape($follow->user_profile_picture); ?>">
                 </div>
                 <div id="user-info">
-                    <h3><a href="<?php echo BASE_URL; ?>/profile?u=<?php echo escape($follow->user_username); ?>"><?php echo escape($follow->user_name); ?></a></h3>
+                    <h3><a href="/profile?u=<?php echo escape($follow->user_username); ?>"><?php echo escape($follow->user_name); ?></a></h3>
                     <h4><?php echo escape($follow->user_username); ?></h4>
                     <h5>Joined on <?= Core\Date::format($follow->user_joined) ?></h5>
-                    <a href="<?php echo BASE_URL; ?>/unfollow?u=<?php echo escape($follow->user_id); ?>"><button>Unfollow</button></a>
+                    <a class="button-link" href="/follow?u=<?php echo escape($follow->user_id); ?>">Unfollow</a>
                 </div>
             </div>
         <?php endforeach; ?>

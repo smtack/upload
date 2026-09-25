@@ -24,4 +24,5 @@
     </div>
 </figure>
 
+<link href="<?= asset('css/video-player.css') ?>" rel="stylesheet">
 <script src="<?= asset('js/video-player.js') ?>"></script>

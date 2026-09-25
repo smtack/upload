@@ -165,20 +165,12 @@ class User
 
     public function follow($follow)
     {
-        if($this->db->insert('follows', $follow)) {
-            return true;
-        }
-
-        return false;
+        return $this->db->insert('follows', $follow);
     }
 
     public function unfollow($follow)
     {
-        if ($this->db->delete('follows', ['follow_user' => $follow['follow_user'], 'follow_following' => $follow['follow_following']])) {
-            return true;
-        }
-
-        return false;
+        return $this->db->delete('follows', ['follow_user' => $follow['follow_user'], 'follow_following' => $follow['follow_following']]);
     }
 
     public function getFollowsData($user)

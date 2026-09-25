@@ -1,5 +1,7 @@
 <?php
 
+use Core\Redirect;
+
 $user = new Models\User();
 
 if($user->loggedIn()) {

@@ -18,13 +18,13 @@
                     <?php endif; ?>
                 </div>
                 <div id="user-info">
-                    <h3><a href="view?id=<?php echo escape($upload->upload_id); ?>"><?php echo escape($upload->upload_title); ?></a></h3>
+                    <h3><a href="/view?id=<?php echo escape($upload->upload_id); ?>"><?php echo escape($upload->upload_title); ?></a></h3>
                     <h5>
-                        By <a href="<?php echo BASE_URL; ?>/profile?u=<?php echo escape($upload->user_username); ?>"><?php echo escape($upload->user_username); ?></a>
+                        By <a href="/profile?u=<?php echo escape($upload->user_username); ?>"><?php echo escape($upload->user_username); ?></a>
                         on <?= Core\Date::format($upload->upload_date) ?>
                     </h5>
                     <h5><?php echo($upload->upload_views == 1) ? escape($upload->upload_views) . ' View' : escape($upload->upload_views) . ' Views'; ?></h5>
-                    <h4><a href="edit?id=<?php echo escape($upload->upload_id); ?>">Edit</a></h4>
+                    <h4><a href="/edit?id=<?php echo escape($upload->upload_id); ?>">Edit</a></h4>
                 </div>
             </div>
         <?php endforeach; ?>

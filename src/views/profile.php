@@ -12,11 +12,9 @@
 
         <?php if($user->loggedIn()): ?>
             <?php if($user->data()->user_username !== $profile->user_username): ?>
-                <?php if(!findValue($follows_data, 'follow_user', $user->data()->user_id)): ?>
-                    <a href="<?php echo BASE_URL; ?>/follow?u=<?php echo escape($profile->user_id); ?>"><button>Follow</button></a>
-                <?php else: ?>
-                    <a href="<?php echo BASE_URL; ?>/unfollow?u=<?php echo escape($profile->user_id); ?>"><button>Unfollow</button></a>
-                <?php endif; ?>
+                <a class="button-link" href="/follow?u=<?= escape($profile->user_id) ?>">
+                    <?= (findValue($follows_data, 'follow_user', $user->data()->user_id)) ? 'Unfollow' : 'Follow' ?>
+                </a>
             <?php endif; ?>
         <?php endif; ?>
     </div>

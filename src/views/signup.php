@@ -31,7 +31,7 @@
             <input type="submit" name="signup" value="Sign Up">
         </div>
         <div class="form-group">
-            <p>Already have an account? <a href="<?php echo BASE_URL; ?>/login">Log In</a>.</p>
+            <p>Already have an account? <a href="/login">Log In</a>.</p>
         </div>
     </form>
 </div>

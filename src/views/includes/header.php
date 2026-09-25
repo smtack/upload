@@ -24,11 +24,11 @@
     <div class="header">
         <div class="left-header">
             <span class="toggle-side-menu">&#9776;</span>
-            <h1 id="logo"><a href="<?php echo BASE_URL; ?>">Upload</a></h1>
+            <h1 id="logo"><a href="/">Upload</a></h1>
         </div>
 
         <div class="search">
-            <form action="<?php echo BASE_URL; ?>/search" method="GET">
+            <form action="/search" method="GET">
                 <input type="text" name="s" placeholder="Search" value="<?php echo isset($keywords) ? str_replace('%', '', $keywords) : ''; ?>">
             </form>
         </div>
@@ -37,33 +37,33 @@
             <?php if($user->loggedIn()): ?>
                 <span class="toggle-menu"><img src="uploads/profile-pictures/<?php echo escape($user->data()->user_profile_picture); ?>" alt="Toggle Menu"></span>
             <?php else: ?>
-                <a href="<?php echo BASE_URL; ?>/signup"><button>Sign Up</button></a>
-                <a href="<?php echo BASE_URL; ?>/login"><button>Log In</button></a>
+                <a href="/signup"><button>Sign Up</button></a>
+                <a href="/login"><button>Log In</button></a>
             <?php endif; ?>
         </div>
     </div>
 
     <div class="menu">
         <ul>
-            <a href="<?php echo BASE_URL; ?>/profile?u=<?php echo escape($user->data()->user_username); ?>"><li>Your Profile</li></a>
-            <a href="<?php echo BASE_URL; ?>/update-profile"><li>Update Profile</li></a>
-            <a href="<?php echo BASE_URL; ?>/logout"><li>Log Out</li></a>
+            <a href="/profile?u=<?php echo escape($user->data()->user_username); ?>"><li>Your Profile</li></a>
+            <a href="/update-profile"><li>Update Profile</li></a>
+            <a href="/logout"><li>Log Out</li></a>
         </ul>
     </div>
 
     <div class="side-menu">
         <ul>
-            <a href="<?php echo BASE_URL; ?>"><li><img src="<?= asset('img/home.svg') ?>" alt="Home">Home</li></a>
-            <a href="<?php echo BASE_URL; ?>/latest"><li><img src="<?= asset('img/all.svg') ?>" alt="Latest Uploads">Latest Uploads</li></a>
-            <a href="<?php echo BASE_URL; ?>/popular"><li><img src="<?= asset('img/popular.svg') ?>" alt="Popular Uploads">Most Viewed</li></a>
-            <a href="<?php echo BASE_URL; ?>/top"><li><img src="<?= asset('img/star.svg') ?>" alt="Top Uploads">Top Rated</li></a>
+            <a href="/"><li><img src="<?= asset('img/home.svg') ?>" alt="Home">Home</li></a>
+            <a href="/latest"><li><img src="<?= asset('img/all.svg') ?>" alt="Latest Uploads">Latest Uploads</li></a>
+            <a href="/popular"><li><img src="<?= asset('img/popular.svg') ?>" alt="Popular Uploads">Most Viewed</li></a>
+            <a href="/top"><li><img src="<?= asset('img/star.svg') ?>" alt="Top Uploads">Top Rated</li></a>
 
             <?php if($user->loggedIn()): ?>
                 <hr class="h-rule">
-                <a href="<?php echo BASE_URL; ?>/upload"><li><img src="<?= asset('img/upload.svg') ?>" alt="Upload">New Upload</li></a>
-                <a href="<?php echo BASE_URL; ?>/your-uploads"><li><img src="<?= asset('img/your-uploads.svg') ?>" alt="Your Uploads">Your Uploads</li></a>
-                <a href="<?php echo BASE_URL; ?>/favorites"><li><img src="<?= asset('img/favorite.svg') ?>" alt="Favorites">Favorites</li></a>
-                <a href="<?php echo BASE_URL; ?>/follows"><li><img src="<?= asset('img/follows.svg') ?>" alt="Follows">Following</li></a>
+                <a href="/upload"><li><img src="<?= asset('img/upload.svg') ?>" alt="Upload">New Upload</li></a>
+                <a href="/your-uploads"><li><img src="<?= asset('img/your-uploads.svg') ?>" alt="Your Uploads">Your Uploads</li></a>
+                <a href="/favorites"><li><img src="<?= asset('img/favorite.svg') ?>" alt="Favorites">Favorites</li></a>
+                <a href="/follows"><li><img src="<?= asset('img/follows.svg') ?>" alt="Follows">Following</li></a>
             <?php endif; ?>
         </ul>
 

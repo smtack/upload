@@ -22,7 +22,7 @@
     <div class="error-page">
         <h1>Page not found</h1>
 
-        <p><a href="<?php echo BASE_URL ?>">Back to Homepage</a></p>
+        <p><a href="/">Back to Homepage</a></p>
     </div>
 </body>
 </html>

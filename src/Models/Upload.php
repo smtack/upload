@@ -15,11 +15,7 @@ class Upload
 
     public function newUpload(array $fields = [])
     {
-        if ($this->db->insert('uploads', $fields)) {
-            return true;
-        }
-
-        return false;
+        return $this->db->insert('uploads', $fields);
     }
 
     public function getUploadsByDate()
@@ -46,8 +42,8 @@ class Upload
 
     public function getUploadsByStarRating()
     {
-        $rows = $this->db->query("
-            SELECT
+        $rows = $this->db->query(
+            "SELECT
                 u.*,
                 user.*,
                 COALESCE(AVG(r.rating_number), 0) AS avg_rating,
@@ -66,7 +62,7 @@ class Upload
                 u.upload_id, user.user_id
             ORDER BY
                 avg_rating DESC, rating_count DESC
-            ");
+        ");
 
         if($rows->count()) {
             return $rows->results();
@@ -77,8 +73,8 @@ class Upload
 
     public function getHomepageUploads(string|int $user)
     {
-        $rows = $this->db->query("
-            SELECT
+        $rows = $this->db->query(
+            "SELECT
                 *
             FROM
                 uploads
@@ -99,7 +95,8 @@ class Upload
                     follow_user = ?))
             ORDER BY
                 upload_date
-            DESC", [$user, $user]);
+            DESC", [$user, $user]
+        );
 
         if($rows->count()) {
             return $rows->results();
@@ -128,9 +125,7 @@ class Upload
 
     public function addView(int $id)
     {
-        $row = $this->db->query("update uploads set upload_views = upload_views + 1 where upload_id = ?", [$id]);
-
-        return true;
+        return $this->db->query("update uploads set upload_views = upload_views + 1 where upload_id = ?", [$id]);
     }
 
     public function rate(array $data)
@@ -150,8 +145,8 @@ class Upload
 
     public function getUploadRating(int $upload)
     {
-        $row = $this->db->query("
-            SELECT
+        $row = $this->db->query(
+            "SELECT
                 uploads.upload_id,
                 AVG(uploads_ratings.rating_number)
             AS
@@ -165,8 +160,8 @@ class Upload
             WHERE
                 uploads.upload_id = ?
             GROUP BY
-                uploads.upload_id
-        ", [$upload]);
+                uploads.upload_id", [$upload]
+        );
 
         if ($row->count()) {
             return $row->first();
@@ -177,8 +172,8 @@ class Upload
 
     public function getUsersRating(int $user, int $upload)
     {
-        $row = $this->db->query("
-            SELECT
+        $row = $this->db->query(
+            "SELECT
                 rating_number,
                 rating_id
             FROM
@@ -186,8 +181,8 @@ class Upload
             WHERE
                 rating_user = ?
             AND
-                rating_upload = ?
-        ", [$user, $upload]);
+                rating_upload = ?", [$user, $upload]
+        );
 
         if ($row->count()) {
             $rated = $row->first();
@@ -198,38 +193,22 @@ class Upload
 
     public function editUpload(int $id, array $data = [])
     {
-        if ($this->db->update('uploads', $data, 'upload_id', $id)) {
-            return true;
-        }
-
-        return false;
+        return $this->db->update('uploads', $data, 'upload_id', $id);
     }
 
     public function deleteUpload(int $id)
     {
-        if ($this->db->delete('uploads', ['upload_id' => $id])) {
-            return true;
-        }
-
-        return false;
+        return $this->db->delete('uploads', ['upload_id' => $id]);
     }
 
     public function favorite(array $favorite)
     {
-        if($this->db->insert('favorites', $favorite)) {
-            return true;
-        }
-
-        return false;
+        return $this->db->insert('favorites', $favorite);
     }
 
     public function unfavorite(array $favorite)
     {
-        if ($this->db->query("DELETE FROM favorites WHERE favorite_user = ? AND favorite_upload = ?", [$favorite['favorite_user'], $favorite['favorite_upload']])) {
-            return true;
-        }
-
-        return false;
+        return $this->db->query("DELETE FROM favorites WHERE favorite_user = ? AND favorite_upload = ?", [$favorite['favorite_user'], $favorite['favorite_upload']]);
     }
 
     public function getFavoritesData($favorite)
@@ -243,8 +222,8 @@ class Upload
 
     public function getUsersFavorites(int $user)
     {
-        $rows = $this->db->query("
-            SELECT
+        $rows = $this->db->query(
+            "SELECT
                 *
             FROM
                 uploads
@@ -260,8 +239,8 @@ class Upload
                 favorite_user = ?
             ORDER BY
                 upload_date
-            DESC
-        ", [$user]);
+            DESC", [$user]
+        );
 
         if ($rows->count()) {
             return $rows->results();
@@ -272,11 +251,7 @@ class Upload
 
     public function newComment(array $comment = [])
     {
-        if($this->db->insert('comments', $comment)) {
-            return true;
-        }
-
-        return false;
+        return $this->db->insert('comments', $comment);
     }
 
     public function getComments(int $id)
@@ -303,20 +278,12 @@ class Upload
 
     public function editComment(int $id, array $data = [])
     {
-        if($this->db->update('comments', $data, 'comment_id', $id)) {
-            return true;
-        }
-
-        return false;
+        return $this->db->update('comments', $data, 'comment_id', $id);
     }
 
     public function deleteComment(int $id)
     {
-        if($this->db->delete('comments', ['comment_id' => $id])) {
-            return true;
-        }
-
-        return false;
+        return $this->db->delete('comments', ['comment_id' => $id]);
     }
 
     public function searchUploads(string $keywords)
