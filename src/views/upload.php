@@ -15,10 +15,16 @@
             <input type="file" name="upload_file">
         </div>
         <div class="form-group">
-            <input type="text" name="upload_title" placeholder="Title">
+            <label for="upload_title">Title</label>
+            <input id="upload_title" type="text" name="upload_title" placeholder="Title">
         </div>
         <div class="form-group">
-            <textarea name="upload_description" placeholder="Description"></textarea>
+            <label for="upload_description">Description</label>
+            <textarea id="upload_description" name="upload_description" placeholder="Description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="upload_thumbnail">Thumbnail (Optional)</label>
+            <input id="upload_thumbnail" type="file" name="upload_thumbnail">
         </div>
         <div class="form-group">
             <input type="hidden" name="token" value="<?php echo Core\Hash::generateToken('token'); ?>">

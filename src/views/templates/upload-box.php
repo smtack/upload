@@ -1,8 +1,6 @@
 <div class="upload-box">
     <?php if(is_video($upload->upload_file)): ?>
-        <video>
-            <source src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload->upload_file); ?>" type="video/mp4">
-        </video>
+        <img src="<?php echo BASE_URL; ?>/uploads/thumbnails/<?php echo escape($upload->upload_thumbnail); ?>" alt="<?php echo escape($upload->upload_title); ?>">
     <?php else: ?>
         <img src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload->upload_file); ?>" alt="<?php echo escape($upload->upload_file); ?>">
     <?php endif; ?>

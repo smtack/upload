@@ -13,18 +13,27 @@
         <?php endif; ?>
         <div class="form-group">
             <?php if(is_video($upload_data->upload_file)): ?>
-                <video>
-                    <source src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload_data->upload_file); ?>" type="video/mp4">
-                </video>
+                <img src="<?php echo BASE_URL; ?>/uploads/thumbnails/<?php echo escape($upload_data->upload_thumbnail); ?>" alt="<?php echo escape($upload_data->upload_title); ?>">
             <?php else: ?>
                 <img src="<?php echo BASE_URL; ?>/uploads/uploads/<?php echo escape($upload_data->upload_file); ?>" alt="<?php echo escape($upload_data->upload_file); ?>">
             <?php endif; ?>
         </div>
         <div class="form-group">
-            <input type="text" name="upload_title" value="<?php echo escape($upload_data->upload_title); ?>">
+            <label for="upload_title">Title</label>
+            <input id="upload_title" type="text" name="upload_title" value="<?php echo escape($upload_data->upload_title); ?>">
         </div>
         <div class="form-group">
-            <textarea name="upload_description"><?php echo escape($upload_data->upload_description); ?></textarea>
+            <label for="upload_description">Description</label>
+            <textarea id="upload_description" name="upload_description"><?php echo escape($upload_data->upload_description); ?></textarea>
+        </div>
+        <div class="form-group">
+            <label for="upload_thumbnail">Thumbnail (Optional)</label>
+
+            <?php if($upload_data->upload_thumbnail): ?>
+                <img src="<?php echo BASE_URL; ?>/uploads/thumbnails/<?php echo escape($upload_data->upload_thumbnail); ?>" alt="Thumbnail">
+            <?php endif; ?>
+
+            <input id="upload_thumbnail" type="file" name="upload_thumbnail">
         </div>
         <div class="form-group">
             <input type="hidden" name="token" value="<?= Core\Hash::generateToken('token') ?>">

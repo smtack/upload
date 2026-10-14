@@ -29,6 +29,7 @@ CREATE TABLE `uploads` (
   `upload_file` VARCHAR(255) NOT NULL,
   `upload_title` VARCHAR(150) NOT NULL,
   `upload_description` VARCHAR(500),
+  `upload_thumbnail` VARCHAR(255),
   `upload_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `upload_by` INT NOT NULL,
   `upload_views` INT DEFAULT 0

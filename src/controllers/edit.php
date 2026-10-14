@@ -1,5 +1,6 @@
 <?php
 
+use Core\Config;
 use Core\File;
 use Core\Hash;
 use Core\Input;
@@ -46,10 +47,30 @@ if(Input::exists($_POST, 'edit')) {
         ));
 
         if($validation->passed()) {
-            if($upload->editUpload($id, array(
+            $data = [
                 'upload_title' => escape(Input::get('upload_title')),
                 'upload_description' => escape(Input::get('upload_description'))
-            ))) {
+            ];
+
+            if (File::get('upload_thumbnail')) {
+                $upload_thumbnail = File::get('upload_thumbnail');
+                $upload_thumbnail_extension = File::getFileExtension($upload_thumbnail);
+                $thumbnail_filename = File::createUniqueFilename() . "." . $upload_thumbnail_extension;
+
+                if (!in_array($upload_thumbnail_extension, Config::get('allowed_upload_extensions'))) {
+                    $validation->addError("This thumbnail file type is not supported");
+                } else if (!File::moveFile('upload_thumbnail', "thumbnails", $thumbnail_filename)) {
+                    $validation->addError("Unable to upload thumbnail");
+                } else {
+                    $data['upload_thumbnail'] = $thumbnail_filename;
+
+                    if ($upload_data->upload_thumbnail) {
+                        File::removeFile("uploads/thumbnails/{$upload_data->upload_thumbnail}");
+                    }
+                }
+            }
+
+            if($upload->editUpload($id, $data)) {
                 Redirect::to(BASE_URL . '/your-uploads');
             } else {
                 $validation->addError("Unable to edit upload");
@@ -64,6 +85,10 @@ if(Input::exists($_POST, 'delete_upload')) {
 
         if($upload->deleteUpload($id)) {
             File::removeFile("uploads/uploads/$filename");
+
+            if($upload_data->upload_thumbnail) {
+                File::removeFile("uploads/thumbnails/{$upload_data->upload_thumbnail}");
+            }
 
             Redirect::to(BASE_URL . '/your-uploads');
         }

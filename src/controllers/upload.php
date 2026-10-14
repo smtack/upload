@@ -34,35 +34,48 @@ if(Input::exists($_POST, 'upload')) {
         ));
 
         if($validation->passed()) {
-            $file = File::get('upload_file');
-
-            $extension = File::getFileExtension($file);
-
-            $unique_filename = File::createUniqueFilename();
-
-            $new_filename = $unique_filename . "." . $extension;
-
-            $target_folder = "uploads";
-
             $data = [
-                'upload_file' => $new_filename,
                 'upload_title' => escape(Input::get('upload_title')),
                 'upload_description' => escape(Input::get('upload_description')),
-                'upload_by' => $user->data()->user_id
+                'upload_by' => $user->data()->user_id,
             ];
 
-            if(!$file) {
+            if (!File::get('upload_file')) {
                 $validation->addError("Select a file to upload");
-            } else if(!in_array($extension, Config::get('allowed_upload_extensions'))) {
-                $validation->addError("This file type is not supported");
             } else {
-                if(!File::moveFile('upload_file', $target_folder, $new_filename)) {
-                    $validation->addError("Unable to make upload");
+                $upload_file = File::get('upload_file');
+                $upload_file_extension = File::getFileExtension($upload_file);
+                $filename = File::createUniqueFilename() . "." . $upload_file_extension;
+
+                if (!in_array($upload_file_extension, Config::get('allowed_upload_extensions'))) {
+                    $validation->addError("This file type is not supported");
                 } else {
-                    if(!$upload->newUpload($data)) {
-                        $validation->addError("Unable to make upload");
+                    $data['upload_file'] = $filename;
+
+                    if (File::get('upload_thumbnail')) {
+                        $upload_thumbnail = File::get('upload_thumbnail');
+                        $upload_thumbnail_extension = File::getFileExtension($upload_thumbnail);
+                        $thumbnail_filename = File::createUniqueFilename() . "." . $upload_thumbnail_extension;
+
+                        if (!in_array($upload_thumbnail_extension, Config::get('allowed_upload_extensions'))) {
+                            $validation->addError("This thumbnail file type is not supported");
+                        } else if(!File::moveFile('upload_thumbnail', "thumbnails", $thumbnail_filename)) {
+                            $validation->addError("Unable to upload thumbnail");
+                        } else {
+                            $data['upload_thumbnail'] = $thumbnail_filename;
+                        }
                     } else {
-                        Redirect::to(BASE_URL);
+                        is_video($upload_file) ? $data['upload_thumbnail'] = 'default.png' : $data['upload_thumbnail'] = null;
+                    }
+
+                    if(!File::moveFile('upload_file', "uploads", $filename)) {
+                        $validation->addError("Unable to upload file");
+                    } else {
+                        if(!$upload->newUpload($data)) {
+                            $validation->addError("Unable to make upload. Try again later.");
+                        } else {
+                            Redirect::to(BASE_URL);
+                        }
                     }
                 }
             }

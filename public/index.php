@@ -30,6 +30,7 @@ $image_extensions = [
     'JPEG',
     'png',
     'PNG',
+    'avif',
 ];
 
 $allowed_upload_extensions = [
@@ -40,6 +41,7 @@ $allowed_upload_extensions = [
     'JPEG',
     'png',
     'PNG',
+    'avif',
 ];
 
 $GLOBALS['config'] = array(

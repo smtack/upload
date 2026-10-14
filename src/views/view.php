@@ -5,7 +5,7 @@
         <?php if(is_video($upload_data->upload_file)): ?>
             <?php include VIEW_ROOT . '/templates/video-player.php' ?>
         <?php else: ?>
-            <img src="<?php echo UPLOAD_ROOT ?>/uploads/<?php echo escape($upload_data->upload_file) ?>" alt="<?php echo escape($upload_data->upload_file) ?>">
+            <img src="<?= BASE_URL ?>/uploads/uploads/<?php echo escape($upload_data->upload_file) ?>" alt="<?php echo escape($upload_data->upload_file) ?>">
         <?php endif; ?>
     </div>
 
