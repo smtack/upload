@@ -1,11 +1,6 @@
 <?php
 
-use Core\Cookie;
-use Core\Config;
-use Core\Session;
-use Core\Database;
 use Core\Router;
-
 use Models\User;
 
 const BASE_PATH = __DIR__ . '/../';
@@ -20,9 +15,15 @@ ini_set('display_errors', 'on');
 ini_set('display_startup_errors', 'on');
 ini_set('log_errors', 'on');
 
-date_default_timezone_set('Europe/London');
+ini_set('session.use_strict_mode', '1');
+ini_set('session.use_only_cookies', '1');
+ini_set('session.cookie_httponly', '1');
+ini_set('session.cookie_samesite', 'Lax');
+//ini_set('session.cookie_secure', '1');
 
 session_start();
+
+date_default_timezone_set('Europe/London');
 
 $image_extensions = [
     'jpg',
@@ -44,34 +45,30 @@ $allowed_upload_extensions = [
     'avif',
 ];
 
-$GLOBALS['config'] = array(
-    'mysql' => array(
+$GLOBALS['config'] = [
+    'mysql' => [
         'dbhost' => DB_HOST,
         'dbname' => DB_NAME,
         'dbuser' => DB_USER,
         'dbpass' => DB_PASS,
         'dbchar' => DB_CHAR
-    ),
-    'remember' => array(
-        'cookie_name' => 'session_hash',
-        'cookie_expiry' => 604800
-    ),
-    'session' => array(
-        'session_name' => 'user',
+    ],
+    'session' => [
+        'session_name' => 'session_user',
         'token_name' => 'token'
-    ),
+    ],
+    'remember' => [
+        'cookie_name' => 'remember_user',
+        'cookie_expiry' => 604800
+    ],
     'image_extensions' => $image_extensions,
     'allowed_upload_extensions' => $allowed_upload_extensions
-);
+];
 
-if(Cookie::exists(Config::get('remember/cookie_name')) && !Session::exists(Config::get('session/session_name'))) {
-    $hash = Cookie::get(Config::get('remember/cookie_name'));
-    $hash_check = Database::getInstance()->select('users_session', ['session_hash' => $hash]);
+$user = new User();
 
-    if($hash_check->count()) {
-        $user = new User($hash_check->first()->user_id);
-        $user->login();
-    }
+if (!$user->loggedIn()) {
+    $user->validateRememberToken();
 }
 
 $routes = require base_path('src/routes.php');

@@ -9,9 +9,9 @@ class Cookie
         return (isset($_COOKIE[$name])) ? true : false;
     }
 
-    public static function set($name, $value, $expiry)
+    public static function set($name, $value, $options = [])
     {
-        if(setcookie($name, $value, time() + $expiry, '/')) {
+        if (setcookie($name, $value, $options)) {
             return true;
         }
 
@@ -25,6 +25,12 @@ class Cookie
 
     public static function delete($name)
     {
-        self::set($name, '', time() - 1);
+        self::set($name, '', [
+            'expires' => time() - 3600,
+            'path' => '/',
+            'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+            'httponly' => true,
+            'samesite' => 'Lax',
+        ]);
     }
 }
